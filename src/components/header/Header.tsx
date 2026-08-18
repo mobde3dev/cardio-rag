@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { HeartPulse, Settings, Award, Menu, ShieldCheck } from "lucide-react";
+import { HeartPulse, Settings, Menu } from "lucide-react";
 import { LanguageToggle } from "./LanguageToggle";
 import { ThemeToggle } from "./ThemeToggle";
 import { ModelSelector } from "./ModelSelector";
@@ -13,6 +13,7 @@ import { Language, getTranslation } from "@/i18n";
 import { AppSettings } from "@/types/settings";
 import { User, LogOut } from "lucide-react";
 import { supabaseService, UserProfile } from "@/services/supabaseService";
+import logo from "../../app/assets/logo.png";
 
 interface HeaderProps {
   language: Language;
@@ -56,22 +57,25 @@ export const Header: React.FC<HeaderProps> = ({
       {/* Brand & Title */}
       <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
-          onClick={onToggleSidebar}
-          aria-label="Toggle navigation drawer"
-          className="rounded-xl p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden min-h-[38px] min-w-[38px] flex items-center justify-center shrink-0"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
+  onClick={onToggleSidebar}
+  aria-label="Toggle navigation drawer"
+  title="Toggle sidebar"
+  className="rounded-xl p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 min-h-[38px] min-w-[38px] flex items-center justify-center shrink-0 transition-colors"
+>
+  <Menu className="h-5 w-5" />
+</button>
 
         <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
-          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-cardio-600 to-medical-500 text-white shadow-sm shrink-0">
-            <HeartPulse className="h-4 w-4 sm:h-5 sm:w-5 animate-pulse-slow" />
-          </div>
-          <div className="min-w-0">
+<img
+  src={logo.src}
+  alt="CardioRAG Logo"
+  className="h-9 w-9 sm:h-10 sm:w-10 object-contain"
+/>          <div className="min-w-0">
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <h1 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-slate-100 truncate">
-                Cardio<span className="text-medical-600 dark:text-medical-400">RAG</span>
-              </h1>
+             <h1 className="text-sm sm:text-base font-bold tracking-tight truncate">
+  <span className="text-[#078A9A]">Cardio</span>
+  <span className="text-[#E31837]">RAG</span>
+</h1>
               <Badge variant="medical" size="sm" className="hidden xs:inline-flex text-[10px] sm:text-[11px] py-0 px-1.5">
                 NICE & WHO
               </Badge>
@@ -83,39 +87,8 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Center / Model Selection (Tablet & Desktop) */}
-      <div className="hidden md:flex items-center gap-2">
-        <ModelSelector
-          selectedModel={selectedModel}
-          onChangeModel={onChangeModel}
-          language={language}
-        />
-      </div>
-
       {/* Right Controls */}
       <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-        {/* Rubric Button (Desktop: Full, Mobile: Icon) */}
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onOpenRubric}
-          aria-label={t.rubricScore}
-          className="hidden sm:inline-flex border-amber-200 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 font-semibold"
-        >
-          <Award className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
-          <span>{t.rubricScore}</span>
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={onOpenRubric}
-          title={t.rubricScore}
-          aria-label={t.rubricScore}
-          className="sm:hidden border-amber-200/80 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400"
-        >
-          <Award className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-        </Button>
-
         {/* User Auth Button */}
         {currentUser ? (
           <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-xl bg-medical-50/60 dark:bg-medical-950/40 border border-medical-200 dark:border-medical-900 text-xs font-semibold text-medical-800 dark:text-medical-200">
