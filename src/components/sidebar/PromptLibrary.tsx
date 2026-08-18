@@ -45,14 +45,14 @@ export const PromptLibrary: React.FC<PromptLibraryProps> = ({
       </div>
 
       {/* Category Pills */}
-      <div className="flex gap-1 overflow-x-auto pb-1 no-scrollbar">
+      <div className="flex gap-1.5 overflow-x-auto pb-1.5 no-scrollbar -mx-1 px-1 touch-pan-x">
         {categories.map((cat) => (
           <button
             key={cat.id}
             onClick={() => setActiveCategory(cat.id)}
-            className={`whitespace-nowrap px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors ${
+            className={`whitespace-nowrap px-2.5 py-1 text-[11px] font-medium rounded-lg transition-colors min-h-[32px] flex items-center shrink-0 ${
               activeCategory === cat.id
-                ? "bg-medical-600 text-white"
+                ? "bg-medical-600 text-white shadow-xs"
                 : "bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700"
             }`}
           >

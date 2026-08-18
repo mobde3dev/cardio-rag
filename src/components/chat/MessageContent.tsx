@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 
 interface MessageContentProps {
@@ -5,89 +7,164 @@ interface MessageContentProps {
 }
 
 export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
-  // Process markdown elements simply & robustly
-  const renderFormattedText = (text: string) => {
-    const lines = text.split("\n");
-    return lines.map((line, idx) => {
-      // Markdown Table Row
-      if (line.trim().startsWith("|") && line.trim().endsWith("|")) {
-        const cells = line.split("|").filter((c) => c.trim() !== "");
-        if (line.includes("---")) {
-          return null; // separator
-        }
+  // Format inline bold/code strings
+  const formatInline = (text: string) => {
+    // Split by bold (**text**)
+    const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+    return parts.map((part, pIdx) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
         return (
-          <div
-            key={idx}
-            className="grid grid-flow-col auto-cols-fr gap-2 py-1 px-2 border-b border-slate-100 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300"
+          <strong
+            key={pIdx}
+            className="font-bold text-slate-900 dark:text-slate-100"
           >
-            {cells.map((cell, cIdx) => (
-              <span key={cIdx} className="break-words font-medium">
-                {cell.trim()}
-              </span>
-            ))}
-          </div>
+            {part.slice(2, -2)}
+          </strong>
         );
       }
-
-      // Bold Header or Bullet
-      if (line.startsWith("### ") || line.startsWith("## ")) {
+      if (part.startsWith("`") && part.endsWith("`")) {
         return (
+          <code
+            key={pIdx}
+            className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-medical-700 dark:text-medical-300 font-mono text-[11px]"
+          >
+            {part.slice(1, -1)}
+          </code>
+        );
+      }
+      return part;
+    });
+  };
+
+  // Group table blocks and format markdown
+  const renderFormattedElements = (text: string) => {
+    const lines = text.split("\n");
+    const elements: React.ReactNode[] = [];
+    let tableBuffer: string[] = [];
+
+    const flushTable = (key: number) => {
+      if (tableBuffer.length === 0) return;
+      const rows = tableBuffer.map((line) =>
+        line
+          .split("|")
+          .filter((_, idx, arr) => idx > 0 && idx < arr.length - 1)
+          .map((c) => c.trim())
+      );
+
+      const headerRow = rows[0] || [];
+      const bodyRows = rows.slice(1).filter((r) => !r.every((c) => c.includes("---") || c === ""));
+
+      elements.push(
+        <div key={`table-${key}`} className="clinical-table-wrapper my-2">
+          <table className="clinical-table">
+            <thead>
+              <tr>
+                {headerRow.map((cell, cIdx) => (
+                  <th key={cIdx}>{formatInline(cell)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {bodyRows.map((row, rIdx) => (
+                <tr key={rIdx}>
+                  {row.map((cell, cIdx) => (
+                    <td key={cIdx}>{formatInline(cell)}</td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+      tableBuffer = [];
+    };
+
+    lines.forEach((line, idx) => {
+      const trimmed = line.trim();
+
+      // Table line detection
+      if (trimmed.startsWith("|") && trimmed.endsWith("|")) {
+        tableBuffer.push(trimmed);
+        return;
+      } else if (tableBuffer.length > 0) {
+        flushTable(idx);
+      }
+
+      // Headers
+      if (line.startsWith("### ") || line.startsWith("## ")) {
+        elements.push(
           <h4
             key={idx}
-            className="text-sm font-bold text-slate-900 dark:text-slate-100 mt-3 mb-1 text-medical-700 dark:text-medical-300"
+            className="text-xs sm:text-sm font-bold text-medical-700 dark:text-medical-300 mt-3 mb-1 tracking-tight"
           >
             {line.replace(/^#+\s*/, "")}
           </h4>
         );
+        return;
       }
 
-      if (line.startsWith("**") && line.endsWith("**")) {
-        return (
+      // Standalone bold line
+      if (trimmed.startsWith("**") && trimmed.endsWith("**") && !trimmed.slice(2, -2).includes("**")) {
+        elements.push(
           <h5
             key={idx}
-            className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-2 mb-1"
+            className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mt-2 mb-1"
           >
-            {line.replace(/\*\*/g, "")}
+            {trimmed.replace(/\*\*/g, "")}
           </h5>
         );
+        return;
       }
 
-      if (line.trim().startsWith("- ") || line.trim().startsWith("• ")) {
-        return (
+      // Unordered list
+      if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
+        elements.push(
           <li
             key={idx}
-            className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed ml-4 rtl:mr-4 rtl:ml-0 list-disc my-0.5"
+            className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed ms-4 list-disc my-1"
           >
-            {line.replace(/^[-•]\s*/, "")}
+            {formatInline(trimmed.replace(/^[-•]\s*/, ""))}
           </li>
         );
+        return;
       }
 
-      if (/^\d+\.\s/.test(line.trim())) {
-        return (
+      // Ordered list
+      if (/^\d+\.\s/.test(trimmed)) {
+        elements.push(
           <li
             key={idx}
-            className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed ml-4 rtl:mr-4 rtl:ml-0 list-decimal my-0.5"
+            className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed ms-4 list-decimal my-1"
           >
-            {line.replace(/^\d+\.\s*/, "")}
+            {formatInline(trimmed.replace(/^\d+\.\s*/, ""))}
           </li>
         );
+        return;
       }
 
-      if (line.trim() === "") {
-        return <div key={idx} className="h-1.5" />;
+      // Empty line
+      if (trimmed === "") {
+        elements.push(<div key={idx} className="h-1.5" />);
+        return;
       }
 
-      return (
+      // Regular paragraph
+      elements.push(
         <p
           key={idx}
-          className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed my-1 font-normal"
+          className="text-xs sm:text-[13px] text-slate-700 dark:text-slate-300 leading-relaxed my-1 font-normal"
         >
-          {line}
+          {formatInline(line)}
         </p>
       );
     });
+
+    if (tableBuffer.length > 0) {
+      flushTable(lines.length);
+    }
+
+    return elements;
   };
 
-  return <div className="space-y-0.5">{renderFormattedText(content)}</div>;
+  return <div className="space-y-0.5">{renderFormattedElements(content)}</div>;
 };

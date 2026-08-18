@@ -39,16 +39,16 @@ export const MessageCitations: React.FC<MessageCitationsProps> = ({
         </button>
       </div>
 
-      <div className="flex flex-wrap gap-1.5">
+      <div className="flex flex-wrap gap-1.5 sm:gap-2">
         {citations.map((c) => (
           <button
             key={c.id}
             onClick={onOpenInspector}
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-medical-50/70 dark:bg-medical-950/40 hover:bg-medical-100 dark:hover:bg-medical-900/60 border border-medical-200/80 dark:border-medical-800/80 text-[11px] text-medical-800 dark:text-medical-200 transition-colors"
+            className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-medical-50/80 dark:bg-medical-950/40 hover:bg-medical-100 dark:hover:bg-medical-900/60 border border-medical-200/80 dark:border-medical-800/80 text-[11px] text-medical-800 dark:text-medical-200 transition-all min-h-[32px] active:scale-[0.98]"
           >
-            <span className="font-bold">{c.source}</span>
-            <span className="text-slate-400">•</span>
-            <span className="truncate max-w-[140px] text-slate-600 dark:text-slate-300 font-mono text-[10px]">
+            <span className="font-bold shrink-0">{c.source}</span>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <span className="truncate max-w-[150px] sm:max-w-[200px] text-slate-600 dark:text-slate-300 font-mono text-[10px]">
               {c.page || c.section}
             </span>
           </button>

@@ -74,7 +74,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="doctor@hospital.org"
-              className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-base sm:text-xs text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
             />
           </div>
 
@@ -88,7 +88,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
-              className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-xs text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
+              className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-base sm:text-xs text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
             />
           </div>
 
@@ -97,7 +97,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({
             variant="primary"
             size="md"
             isLoading={isLoading}
-            className="w-full justify-center text-xs font-semibold"
+            className="w-full justify-center text-xs sm:text-sm font-semibold min-h-[42px]"
           >
             <LogIn className="h-4 w-4" />
             <span>{language === "ar" ? "دخول فوري" : "Sign In"}</span>

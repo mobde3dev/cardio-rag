@@ -52,38 +52,38 @@ export const Header: React.FC<HeaderProps> = ({
   };
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 w-full items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-4 sm:px-6">
+    <header className="sticky top-0 z-40 flex h-14 sm:h-16 w-full items-center justify-between border-b border-slate-200/80 dark:border-slate-800/80 bg-white/85 dark:bg-slate-900/85 backdrop-blur-md px-3 sm:px-6 safe-top transition-colors">
       {/* Brand & Title */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
           onClick={onToggleSidebar}
           aria-label="Toggle navigation drawer"
-          className="rounded-xl p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden"
+          className="rounded-xl p-2 text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 lg:hidden min-h-[38px] min-w-[38px] flex items-center justify-center shrink-0"
         >
           <Menu className="h-5 w-5" />
         </button>
 
-        <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-cardio-600 to-medical-500 text-white shadow-sm">
-            <HeartPulse className="h-5 w-5 animate-pulse-slow" />
+        <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+          <div className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-cardio-600 to-medical-500 text-white shadow-sm shrink-0">
+            <HeartPulse className="h-4 w-4 sm:h-5 sm:w-5 animate-pulse-slow" />
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-base font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          <div className="min-w-0">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <h1 className="text-sm sm:text-base font-bold tracking-tight text-slate-900 dark:text-slate-100 truncate">
                 Cardio<span className="text-medical-600 dark:text-medical-400">RAG</span>
               </h1>
-              <Badge variant="medical" size="sm">
+              <Badge variant="medical" size="sm" className="hidden xs:inline-flex text-[10px] sm:text-[11px] py-0 px-1.5">
                 NICE & WHO
               </Badge>
             </div>
-            <p className="hidden sm:block text-[11px] font-medium text-slate-500 dark:text-slate-400">
+            <p className="hidden md:block text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate">
               {t.appSubtitle}
             </p>
           </div>
         </div>
       </div>
 
-      {/* Center / Model Selection (Desktop) */}
+      {/* Center / Model Selection (Tablet & Desktop) */}
       <div className="hidden md:flex items-center gap-2">
         <ModelSelector
           selectedModel={selectedModel}
@@ -93,29 +93,41 @@ export const Header: React.FC<HeaderProps> = ({
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-1.5 sm:gap-2">
-        {/* Rubric Button */}
+      <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+        {/* Rubric Button (Desktop: Full, Mobile: Icon) */}
         <Button
           variant="outline"
           size="sm"
           onClick={onOpenRubric}
+          aria-label={t.rubricScore}
           className="hidden sm:inline-flex border-amber-200 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-300 font-semibold"
         >
           <Award className="h-3.5 w-3.5 text-amber-600 dark:text-amber-400" />
           <span>{t.rubricScore}</span>
         </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={onOpenRubric}
+          title={t.rubricScore}
+          aria-label={t.rubricScore}
+          className="sm:hidden border-amber-200/80 dark:border-amber-900/60 bg-amber-50/50 dark:bg-amber-950/20 text-amber-700 dark:text-amber-400"
+        >
+          <Award className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+        </Button>
 
         {/* User Auth Button */}
         {currentUser ? (
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-medical-50/60 dark:bg-medical-950/40 border border-medical-200 dark:border-medical-900 text-xs font-semibold text-medical-800 dark:text-medical-200">
-            <User className="h-3.5 w-3.5 text-medical-600 dark:text-medical-400" />
-            <span className="truncate max-w-[80px] hidden sm:inline">
+          <div className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1 rounded-xl bg-medical-50/60 dark:bg-medical-950/40 border border-medical-200 dark:border-medical-900 text-xs font-semibold text-medical-800 dark:text-medical-200">
+            <User className="h-3.5 w-3.5 text-medical-600 dark:text-medical-400 shrink-0" />
+            <span className="truncate max-w-[70px] sm:max-w-[100px] hidden sm:inline text-xs">
               {currentUser.fullName}
             </span>
             <button
               onClick={handleLogout}
               title={language === "ar" ? "تسجيل الخروج" : "Sign Out"}
-              className="text-slate-400 hover:text-cardio-600 ml-1 rtl:mr-1"
+              aria-label="Sign out"
+              className="text-slate-400 hover:text-cardio-600 ml-1 rtl:mr-1 p-0.5"
             >
               <LogOut className="h-3 w-3" />
             </button>
@@ -125,7 +137,8 @@ export const Header: React.FC<HeaderProps> = ({
             variant="outline"
             size="sm"
             onClick={() => setIsAuthOpen(true)}
-            className="text-xs font-semibold border-medical-200 dark:border-medical-900 text-medical-700 dark:text-medical-300"
+            aria-label={language === "ar" ? "تسجيل الدخول" : "Sign in"}
+            className="text-xs font-semibold border-medical-200 dark:border-medical-900 text-medical-700 dark:text-medical-300 px-2 sm:px-3"
           >
             <User className="h-3.5 w-3.5" />
             <span className="hidden sm:inline">

@@ -1,10 +1,21 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
   title: "CardioRAG — Clinical Cardiology AI Decision Support",
   description:
     "Evidence-based cardiology guidelines RAG assistant powered by Groq, NICE NG136, WHO 2021, and NICE NG238.",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#faf5ff" },
+    { media: "(prefers-color-scheme: dark)", color: "#070b14" },
+  ],
 };
 
 export default function RootLayout({

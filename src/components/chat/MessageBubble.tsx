@@ -35,10 +35,10 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
     >
       <div
         className={clsx(
-          "w-full rounded-2xl p-4 md:p-5 transition-all shadow-xs border",
+          "w-full rounded-2xl p-3 sm:p-4 md:p-5 transition-all shadow-xs border",
           isUser
-            ? "max-w-xl bg-slate-100 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-slate-100"
-            : "max-w-3xl bg-white dark:bg-slate-900/95 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-md shadow-slate-950/5"
+            ? "max-w-[92%] sm:max-w-lg md:max-w-xl bg-slate-100 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-slate-100"
+            : "max-w-[98%] sm:max-w-2xl md:max-w-3xl bg-white dark:bg-slate-900/95 border-slate-200/90 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-md shadow-slate-950/5"
         )}
       >
         {/* Message Header */}
