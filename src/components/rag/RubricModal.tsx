@@ -30,27 +30,27 @@ export const RubricModal: React.FC<RubricModalProps> = ({
     >
       <div className="space-y-4">
         {/* Total Score Banner */}
-        <div className="flex items-center justify-between rounded-2xl bg-gradient-to-r from-medical-600 to-medical-800 p-4 text-white shadow-md">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 rounded-2xl bg-gradient-to-r from-medical-600 to-medical-800 p-3.5 sm:p-4 text-white shadow-md">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 shrink-0">
               <Award className="h-6 w-6 text-amber-300" />
             </div>
-            <div>
-              <h4 className="text-sm font-bold">
+            <div className="min-w-0">
+              <h4 className="text-xs sm:text-sm font-bold truncate">
                 {language === "ar"
                   ? "معايير التقييم للهاكاثون السريري"
                   : "Clinical Hackathon Evaluation Score"}
               </h4>
-              <p className="text-xs text-white/80">
+              <p className="text-[11px] sm:text-xs text-white/80 line-clamp-1">
                 {language === "ar"
                   ? "تغطية شاملة لكافة محاور التقييم السبعة"
                   : "Comprehensive 7-pillar clinical RAG evaluation"}
               </p>
             </div>
           </div>
-          <div className="text-right rtl:text-left">
-            <span className="text-2xl font-black font-mono">100</span>
-            <span className="text-xs text-white/80 block">
+          <div className="self-end sm:self-auto text-end rtl:text-start bg-white/10 sm:bg-transparent px-3 py-1 sm:p-0 rounded-xl">
+            <span className="text-xl sm:text-2xl font-black font-mono">100</span>
+            <span className="text-[10px] sm:text-xs text-white/80 block sm:inline sm:ms-1">
               {t.maxPointsLabel}
             </span>
           </div>

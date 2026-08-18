@@ -28,7 +28,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
   }, [messages]);
 
   return (
-    <div className="flex-1 overflow-y-auto px-4 md:px-6 py-6 space-y-5">
+    <div className="flex-1 overflow-y-auto px-2.5 sm:px-4 md:px-6 py-3 sm:py-6 space-y-4 sm:space-y-5 overscroll-contain">
       {messages.length === 0 ? (
         <WelcomeHero onSelectPrompt={onSelectPrompt} language={language} />
       ) : (
@@ -42,7 +42,7 @@ export const ChatContainer: React.FC<ChatContainerProps> = ({
           />
         ))
       )}
-      <div ref={bottomRef} />
+      <div ref={bottomRef} className="h-2" />
     </div>
   );
 };

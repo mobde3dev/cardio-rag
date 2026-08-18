@@ -51,14 +51,14 @@ export default function Home() {
 
   if (!langMounted || !themeMounted || !sessionsMounted) {
     return (
-      <div className="flex h-screen w-full items-center justify-center bg-slate-950 text-slate-400">
+      <div className="flex h-dvh w-full items-center justify-center bg-slate-950 text-slate-400">
         <div className="h-6 w-6 animate-spin rounded-full border-2 border-medical-500 border-t-transparent" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-slate-50 dark:bg-slate-950 font-sans">
+    <div className="flex h-dvh w-full overflow-hidden bg-slate-50 dark:bg-slate-950 font-sans">
       {/* Sidebar */}
       <ChatSidebar
         isOpen={isSidebarOpen}

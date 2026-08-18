@@ -58,19 +58,19 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 pb-4 pt-1">
+    <div className="w-full max-w-4xl mx-auto px-3 sm:px-4 pb-3 sm:pb-4 pt-1 safe-bottom">
       {/* Loading Step Progress Indicator */}
       {isLoading && (
-        <div className="flex items-center gap-2 text-xs font-medium text-medical-600 dark:text-medical-400 mb-2 px-3 py-1.5 rounded-xl bg-medical-50/80 dark:bg-medical-950/40 border border-medical-200 dark:border-medical-900/60 animate-fade-in">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" />
-          <span>{getStepText()}</span>
+        <div className="flex items-center gap-2 text-xs font-medium text-medical-600 dark:text-medical-400 mb-2 px-3 py-1.5 rounded-xl bg-medical-50/90 dark:bg-medical-950/60 border border-medical-200 dark:border-medical-900/60 animate-fade-in shadow-xs">
+          <Loader2 className="h-3.5 w-3.5 animate-spin shrink-0" />
+          <span className="truncate">{getStepText()}</span>
         </div>
       )}
 
       {/* Input Box */}
       <form
         onSubmit={handleSubmit}
-        className="relative flex items-end gap-2 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-2 shadow-lg shadow-slate-950/5 focus-within:border-medical-500 focus-within:ring-2 focus-within:ring-medical-500/20 transition-all"
+        className="relative flex items-end gap-2 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md p-1.5 sm:p-2 shadow-lg shadow-slate-950/5 focus-within:border-medical-500 focus-within:ring-2 focus-within:ring-medical-500/20 transition-all"
       >
         <textarea
           ref={textareaRef}
@@ -80,7 +80,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           placeholder={t.inputPlaceholder}
           rows={1}
           disabled={isLoading}
-          className="w-full resize-none bg-transparent px-3 py-1.5 text-xs md:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none max-h-36 min-h-[38px] leading-relaxed"
+          className="w-full resize-none bg-transparent px-2.5 sm:px-3 py-1.5 text-base sm:text-sm text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none max-h-36 min-h-[40px] leading-relaxed"
         />
 
         <Button
@@ -89,7 +89,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           size="icon"
           variant="primary"
           aria-label="Send clinical query"
-          className="shrink-0 h-9 w-9 rounded-xl"
+          className="shrink-0 h-10 w-10 sm:h-9 sm:w-9 rounded-xl flex items-center justify-center min-h-[40px] min-w-[40px] sm:min-h-[36px] sm:min-w-[36px]"
         >
           {isLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />

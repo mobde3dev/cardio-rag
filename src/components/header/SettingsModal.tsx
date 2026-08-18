@@ -59,7 +59,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               setFormData({ ...formData, groqApiKey: e.target.value })
             }
             placeholder="gsk_..."
-            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none focus:ring-1 focus:ring-medical-500"
+            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-base sm:text-sm text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none focus:ring-1 focus:ring-medical-500"
           />
           <p className="text-[11px] text-slate-500 dark:text-slate-400">
             {t.groqApiKeyHelp}
@@ -76,7 +76,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             onChange={(e) =>
               setFormData({ ...formData, selectedModel: e.target.value })
             }
-            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
+            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-base sm:text-sm text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
           >
             {AVAILABLE_MODELS.map((m) => (
               <option key={m.id} value={m.id}>
@@ -96,7 +96,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             onChange={(e) =>
               setFormData({ ...formData, translationModel: e.target.value })
             }
-            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-sm text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
+            className="w-full rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 px-3 py-2 text-base sm:text-sm text-slate-900 dark:text-slate-100 focus:border-medical-500 focus:outline-none"
           >
             <option value="openai/gpt-oss-20b">GPT-OSS 20B (Ultra Fast)</option>
             <option value="qwen/qwen3.6-27b">Qwen 3.6 27B (Bilingual Pro)</option>
@@ -124,7 +124,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 temperature: parseFloat(e.target.value),
               })
             }
-            className="w-full accent-medical-600"
+            className="w-full accent-medical-600 h-2 cursor-pointer"
           />
           <p className="text-[11px] text-slate-500 dark:text-slate-400">
             {t.temperatureHelp}
@@ -148,12 +148,12 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             onChange={(e) =>
               setFormData({ ...formData, topK: parseInt(e.target.value, 10) })
             }
-            className="w-full accent-medical-600"
+            className="w-full accent-medical-600 h-2 cursor-pointer"
           />
         </div>
 
         {/* Buttons */}
-        <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
+        <div className="flex flex-wrap items-center justify-between gap-2 pt-4 border-t border-slate-100 dark:border-slate-800">
           <Button
             type="button"
             variant="ghost"
