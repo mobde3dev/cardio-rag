@@ -1,10 +1,14 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
+import logo from "./assets/logo.png";
 
 export const metadata: Metadata = {
-  title: "CardioRAG — Clinical Cardiology AI Decision Support",
+  title: "CardioRAG",
   description:
     "Evidence-based cardiology guidelines RAG assistant powered by Groq, NICE NG136, WHO 2021, and NICE NG238.",
+  icons: {
+    icon: logo.src,
+  },
 };
 
 export const viewport: Viewport = {

@@ -34,16 +34,6 @@ export const PromptLibrary: React.FC<PromptLibraryProps> = ({
 
   return (
     <div className="flex flex-col space-y-2.5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1.5 text-xs font-bold text-slate-900 dark:text-slate-100">
-          <BookOpen className="h-3.5 w-3.5 text-medical-600 dark:text-medical-400" />
-          <span>{t.promptsLibrary}</span>
-        </div>
-        <Badge variant="medical" size="sm">
-          20 Qs
-        </Badge>
-      </div>
-
       {/* Category Pills */}
       <div className="flex gap-1.5 overflow-x-auto pb-1.5 no-scrollbar -mx-1 px-1 touch-pan-x">
         {categories.map((cat) => (
