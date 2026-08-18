@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Send, Sparkles, Loader2 } from "lucide-react";
+import { ArrowUp, Sparkles, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Language, getTranslation } from "@/i18n";
 
@@ -94,7 +94,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           {isLoading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
-            <Send className="h-4 w-4 rtl:rotate-180" />
+            <ArrowUp className="h-4.5 w-4.5" />
           )}
         </Button>
       </form>
