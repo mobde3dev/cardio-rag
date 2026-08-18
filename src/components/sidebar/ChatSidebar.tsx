@@ -57,11 +57,13 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
       {/* Sidebar Container */}
       <aside
         className={clsx(
-          "fixed inset-y-0 start-0 z-40 w-[84vw] max-w-[320px] sm:w-80 flex-col justify-between border-e border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-slate-925/95 backdrop-blur-xl p-3.5 sm:p-4 transition-transform duration-300 ease-in-out lg:static lg:flex lg:translate-x-0 h-dvh overflow-y-auto overscroll-contain safe-bottom",
+          "inset-y-0 start-0 z-40 w-[84vw] max-w-[320px] sm:w-80 lg:w-72 xl:w-80 shrink-0 flex-col justify-between border-e border-slate-200/80 dark:border-slate-800/80 bg-white/95 dark:bg-slate-925/95 backdrop-blur-xl p-3.5 sm:p-4 transition-transform duration-300 ease-in-out h-dvh overflow-y-auto overscroll-contain safe-bottom",
+          "lg:static lg:flex lg:translate-x-0 lg:shadow-none",
           isOpen
-            ? "translate-x-0 flex shadow-2xl"
-            : "-translate-x-full rtl:translate-x-full lg:translate-x-0 hidden lg:flex"
+            ? "fixed translate-x-0 flex shadow-2xl"
+            : "fixed max-lg:-translate-x-full max-lg:rtl:translate-x-full hidden lg:flex"
         )}
+        style={{ transform: undefined }}
       >
         {/* Top Header & Content */}
         <div className="space-y-3 sm:space-y-4">

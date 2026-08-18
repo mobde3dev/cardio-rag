@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { clsx } from "clsx";
 
@@ -21,6 +22,12 @@ export const Drawer: React.FC<DrawerProps> = ({
   children,
   side = "end",
 }) => {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -35,13 +42,13 @@ export const Drawer: React.FC<DrawerProps> = ({
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
-  return (
+  const drawerContent = (
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-950/65 backdrop-blur-xs transition-opacity animate-fade-in"
+        className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs transition-opacity animate-fade-in"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -82,4 +89,6 @@ export const Drawer: React.FC<DrawerProps> = ({
       </div>
     </div>
   );
+
+  return createPortal(drawerContent, document.body);
 };
