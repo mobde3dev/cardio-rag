@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: cardio-rag-api
+    runtime: python
+    buildCommand: pip install -r requirements-runtime.txt
+    startCommand: uvicorn src.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    plan: free
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: CLOUDFLARE_ACCOUNT_ID
+        sync: false
+      - key: CLOUDFLARE_API_TOKEN
+        sync: false
+      - key: CLOUDFLARE_EMBED_MODEL
+        value: "@cf/baai/bge-m3"
+      - key: FRONTEND_URL
+        sync: false
