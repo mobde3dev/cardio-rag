@@ -7,12 +7,20 @@ interface MessageContentProps {
 }
 
 export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
-  // Format inline bold/code strings
+  // Format inline bold/italic/code strings and HTML line breaks (<br>, <br/>)
   const formatInline = (text: string) => {
-    // Split by bold (**text**) or code (`text`)
-    const parts = text.split(/(\*\*.*?\*\*|`.*?`)/g);
+    // Split by <br>, bold (**text**), code (`text`), or italic (*text*)
+    const parts = text.split(/(<br\s*\/?>|\*\*.*?\*\*|`.*?`|\*.*?\*)/gi);
     return parts.map((part, pIdx) => {
-      if (part.startsWith("**") && part.endsWith("**")) {
+      if (!part) return null;
+
+      // Handle <br> / <br/> tags
+      if (/<br\s*\/?>/i.test(part)) {
+        return <br key={pIdx} className="my-0.5" />;
+      }
+
+      // Handle bold text (**text**)
+      if (part.startsWith("**") && part.endsWith("**") && part.length >= 4) {
         return (
           <strong
             key={pIdx}
@@ -22,17 +30,32 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
           </strong>
         );
       }
-      if (part.startsWith("`") && part.endsWith("`")) {
+
+      // Handle inline code (`text`)
+      if (part.startsWith("`") && part.endsWith("`") && part.length >= 2) {
         return (
           <code
             key={pIdx}
             dir="ltr"
-            className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/90 text-medical-700 dark:text-medical-300 font-mono text-[12px] border border-slate-200/60 dark:border-slate-700/60 inline-block font-medium"
+            className="px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/90 text-teal-700 dark:text-teal-300 font-mono text-[12px] border border-slate-200/60 dark:border-slate-700/60 inline-block font-medium"
           >
             {part.slice(1, -1)}
           </code>
         );
       }
+
+      // Handle single-asterisk italic (*text*)
+      if (part.startsWith("*") && part.endsWith("*") && part.length >= 2 && !part.startsWith("**")) {
+        return (
+          <span
+            key={pIdx}
+            className="text-slate-600 dark:text-slate-300 font-medium"
+          >
+            {part.slice(1, -1)}
+          </span>
+        );
+      }
+
       return part;
     });
   };
@@ -87,7 +110,7 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
                       <td
                         key={cIdx}
                         dir="auto"
-                        className="px-3.5 py-2.5 text-start text-slate-700 dark:text-slate-300 leading-relaxed"
+                        className="px-3.5 py-2.5 text-start text-slate-700 dark:text-slate-300 leading-relaxed align-top"
                       >
                         {formatInline(cell)}
                       </td>
@@ -131,7 +154,7 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
           <h4
             key={idx}
             dir="auto"
-            className="text-sm sm:text-[15px] font-bold text-medical-700 dark:text-medical-300 mt-4 mb-2 tracking-tight flex items-center gap-1.5"
+            className="text-sm sm:text-[15px] font-bold text-teal-700 dark:text-teal-300 mt-4 mb-2 tracking-tight flex items-center gap-1.5"
           >
             {line.replace(/^#+\s*/, "")}
           </h4>
@@ -153,6 +176,26 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
           >
             {trimmed.replace(/\*\*/g, "")}
           </h5>
+        );
+        return;
+      }
+
+      // Asterisk note / disclaimer line (e.g. *This info is...* or *المعلومات المتاحة...*)
+      if (
+        trimmed.startsWith("*") &&
+        trimmed.endsWith("*") &&
+        trimmed.length > 2 &&
+        !trimmed.startsWith("**")
+      ) {
+        const cleanText = trimmed.slice(1, -1).trim();
+        elements.push(
+          <p
+            key={idx}
+            dir="auto"
+            className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium my-2 leading-relaxed bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-slate-200/60 dark:border-slate-800"
+          >
+            {formatInline(cleanText)}
+          </p>
         );
         return;
       }

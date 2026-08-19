@@ -11,7 +11,7 @@ interface DrawerProps {
   title: string;
   subtitle?: string;
   children: React.ReactNode;
-  side?: "right" | "left" | "end" | "start";
+  side?: "left" | "right";
 }
 
 export const Drawer: React.FC<DrawerProps> = ({
@@ -20,7 +20,7 @@ export const Drawer: React.FC<DrawerProps> = ({
   title,
   subtitle,
   children,
-  side = "end",
+  side = "left",
 }) => {
   const [mounted, setMounted] = useState(false);
 
@@ -44,6 +44,8 @@ export const Drawer: React.FC<DrawerProps> = ({
 
   if (!isOpen || !mounted) return null;
 
+  const isLeft = side === "left";
+
   const drawerContent = (
     <div className="fixed inset-0 z-50 overflow-hidden">
       {/* Backdrop */}
@@ -54,11 +56,21 @@ export const Drawer: React.FC<DrawerProps> = ({
       />
 
       {/* Drawer Container */}
-      <div className="fixed inset-y-0 end-0 flex max-w-full sm:ps-10">
+      <div
+        className={clsx(
+          "fixed inset-y-0 flex max-w-full",
+          isLeft ? "left-0 sm:pr-10" : "right-0 sm:pl-10"
+        )}
+      >
         <div
           role="dialog"
           aria-modal="true"
-          className="w-screen max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl bg-white dark:bg-slate-900 border-s border-slate-200/80 dark:border-slate-800 shadow-2xl flex flex-col animate-slide-in-right rtl:animate-slide-in-left h-dvh"
+          className={clsx(
+            "w-screen max-w-full sm:max-w-md md:max-w-lg lg:max-w-xl bg-white dark:bg-slate-900 shadow-2xl flex flex-col h-dvh",
+            isLeft
+              ? "border-r border-slate-200/80 dark:border-slate-800 animate-slide-in-left"
+              : "border-l border-slate-200/80 dark:border-slate-800 animate-slide-in-right"
+          )}
         >
           {/* Header */}
           <div className="flex items-center justify-between px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 dark:border-slate-800 shrink-0">

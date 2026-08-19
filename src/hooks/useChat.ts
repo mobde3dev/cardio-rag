@@ -101,7 +101,7 @@ export function useChat({
           role: "assistant",
           content:
             userLanguage === "ar"
-              ? `⚠️ حدث خطأ أثناء معالجة الطلب السريري:\n${error.message || "فشل الاتصال بمزود الذكاء الاصطناعي."}`
+              ? `⚠️ حدث خطأ أثناء معالجة الاستفسار الطبي:\n${error.message || "فشل الاتصال بمزود الذكاء الاصطناعي."}`
               : `⚠️ Error processing clinical query:\n${error.message || "Failed to communicate with AI provider."}`,
           timestamp: Date.now(),
           isInsufficientEvidence: true,
