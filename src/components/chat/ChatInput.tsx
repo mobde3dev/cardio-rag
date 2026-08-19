@@ -305,6 +305,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           )}
         </Button>
       </form>
+
+      {/* Persistent Single Clinical Safety Disclaimer */}
+      <p className="text-[11px] text-center text-slate-600 dark:text-slate-400 mt-2 px-2 leading-relaxed">
+        {language === "ar"
+          ? "CardioRAG أداة مساعدة لدعم القرار السريري مستندة إلى أدلة WHO 2021 و NICE NG136/NG238. لا تغني عن الفحص والتقييم السريري المستقل."
+          : "CardioRAG is an AI clinical decision support tool grounded in WHO 2021 & NICE guidelines. Not a substitute for professional clinical judgment."}
+      </p>
     </div>
   );
 };
