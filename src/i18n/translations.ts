@@ -3,29 +3,29 @@ export type Language = "ar" | "en";
 export const translations = {
   ar: {
     appTitle: "CardioRAG",
-    appSubtitle: "مساعد سريري ذكي لدعم القرار في أمراض القلب",
-    badgeAi: "ذكاء سريري مدعوم بتقنية RAG",
-    badgeGrounded: "مدعوم بالأدلة السريرية",
-    badgeWhoNice: "إرشادات NICE وWHO",
+    appSubtitle: "مساعد ذكي لدعم القرار الطبي في أمراض القلب وضغط الدم",
+    badgeAi: "ذكاء اصطناعي طبي مدعوم بتقنية RAG",
+    badgeGrounded: "مستند إلى الأدلة الطبية",
+    badgeWhoNice: "إرشادات WHO 2021 و NICE NG238",
 
     // Header & Actions
-    newChat: "استفسار سريري جديد",
-    searchHistory: "البحث في السجل السريري...",
+    newChat: "استفسار طبي جديد",
+    searchHistory: "البحث في السجل...",
     settings: "الإعدادات والنماذج",
-    guidelines: "الإرشادات المفهرسة",
+    guidelines: "الإرشادات المعتمدة",
     rubricEvaluation: "معايير تقييم الهاكاثون",
     rubricScore: "100 نقطة",
     ragInspector: "فاحص RAG",
     themeToggle: "تبديل المظهر",
     langToggle: "English",
     clearHistory: "مسح السجل",
-    noHistory: "لا توجد محادثات سابقة",
-    deleteSession: "حذف المحادثة",
+    noHistory: "لا توجد استفسارات سابقة",
+    deleteSession: "حذف الاستفسار",
     renameSession: "إعادة تسمية",
 
     // Sidebar & Prompt Library
-    chatHistory: "سجل المحادثات",
-    promptsLibrary: "بنك الأسئلة السريرية (20 سؤالًا)",
+    chatHistory: "سجل الاستفسارات",
+    promptsLibrary: "بنك الأسئلة الطبية (20 سؤالًا)",
     promptCategories: {
       all: "جميع الأسئلة",
       hypertension: "ارتفاع ضغط الدم",
@@ -33,101 +33,100 @@ export const translations = {
       safety_pregnancy: "سلامة الأدوية أثناء الحمل",
       risk_tools: "أدوات تقييم المخاطر (QRISK)",
       lifestyle: "نمط الحياة والتغذية",
-      guideline_comparison: "مقارنة إرشادات WHO وNICE",
+      guideline_comparison: "مقارنة إرشادات WHO 2021 و NICE NG238",
     },
 
     // Chat & Input
     inputPlaceholder:
-      "اطرح سؤالًا سريريًا حول ضغط الدم، أو أدوية الستاتين، أو إرشادات NICE وWHO...",
+      "اطرح سؤالًا طبيًا حول ضغط الدم، أو أدوية الستاتين، أو إرشادات WHO 2021 و NICE NG238...",
     sendButton: "إرسال الاستفسار",
     stopButton: "إيقاف التوليد",
-    translatingQuery: "جارٍ ترجمة الاستفسار لإجراء البحث الدلالي...",
-    searchingGuidelines: "جارٍ البحث في إرشادات NICE وWHO...",
-    generatingAnswer: "جارٍ توليد إجابة سريرية مستندة إلى الأدلة...",
+    translatingQuery: "جارٍ مواءمة الاستفسار للبحث الدلالي...",
+    searchingGuidelines: "جارٍ البحث في إرشادات WHO 2021 و NICE NG238...",
+    generatingAnswer: "جارٍ إعداد الإجابة الطبية الموثقة...",
 
     // Message & Citations
     assistantName: "CardioRAG AI",
-    userName: "الطبيب / المستخدم",
+    userName: "الطبيب",
     evidenceLevel: "مستوى الدليل",
     groundedScore: "درجة الاستناد إلى الأدلة",
-    citationsCount: "عدد الاستشهادات",
-    showChunks: "عرض المقاطع المسترجعة",
-    hideChunks: "إخفاء المقاطع",
-    compareGuidelines: "مقارنة الإرشادات (WHO وNICE)",
+    citationsCount: "المصادر المعتمدة",
+    showChunks: "عرض الأدلة المسترجعة",
+    hideChunks: "إخفاء الأدلة",
+    compareGuidelines: "مقارنة إرشادات WHO 2021 و NICE NG238",
     copyAnswer: "نسخ الإجابة",
     copied: "تم النسخ بنجاح",
     audioReadout: "الاستماع إلى الإجابة",
-    translationBreakdown: "تفاصيل مسار ترجمة الاستفسار",
+    translationBreakdown: "مسار الترجمة والمواءمة الدلالية",
     originalArabicQuery: "الاستفسار الأصلي",
-    translatedEnglishQuery: "الاستفسار المترجم للبحث في فضاء المتجهات",
+    translatedEnglishQuery: "المصطلحات الطبية للبحث المتجهي",
     insufficientEvidenceAlert:
-      "تنبيه سريري: الأدلة المسترجعة غير كافية لتقديم توصية حاسمة. يُرجى تجنب الاستنتاجات غير المدعومة بالأدلة.",
+      "تنبيه طبي: الأدلة المسترجعة غير كافية لتقديم توصية قاطعة في هذا الموضوع. تم تجنب التخمين حفاظًا على الدقة الطبية والأمان.",
     clinicalDisclaimer:
-      "ملاحظة للسلامة السريرية: هذا النظام أداة لدعم القرار السريري ومخصص للمتخصصين في الرعاية الصحية، ولا يُغني عن التقييم والحكم السريري الشامل.",
+      "ملاحظة أمان: CardioRAG أداة مساعدة لدعم القرار الطبي مستندة إلى إرشادات WHO 2021 و NICE NG238، ولا تغني عن الفحص والتقييم الطبي المستقل.",
 
     // RAG Inspector Drawer
-    ragInspectorTitle: "فاحص الاسترجاع الدلالي (RAG Inspector)",
+    ragInspectorTitle: "شفافية الاسترجاع والأدلة (RAG Inspector)",
     ragInspectorDesc:
-      "فحص المقاطع المسترجعة ودرجات التشابه وأقسام الإرشادات قبل توليد الإجابة.",
+      "فحص المقاطع الطبية المسترجعة ودرجات التشابه وأرقام الصفحات قبل التوليد.",
     retrievedChunksTitle: "المقاطع المسترجعة (Top-k)",
     similarityScore: "درجة التشابه الدلالي",
-    chunkSource: "المصدر والمعرّف",
+    chunkSource: "المصدر المعتمد",
     chunkPage: "الصفحة",
-    chunkSection: "القسم السريري",
+    chunkSection: "القسم / التوصية",
     metricsBreakdown: "تحليل الأداء وزمن الاستجابة",
     retrievalLatency: "زمن الاسترجاع المتجهي",
-    generationLatency: "زمن توليد الإجابة بواسطة LLM",
+    generationLatency: "زمن توليد الإجابة",
     totalLatency: "إجمالي زمن الاستجابة",
-    tokensUsed: "عدد الـTokens المستخدمة",
+    tokensUsed: "عدد الـ Tokens",
     precisionAtK: "دقة الاسترجاع (Precision@k)",
     faithfulness: "درجة الالتزام بالمصادر (Faithfulness)",
 
     // Guideline Comparison
-    guidelineComparisonTitle: "مقارنة الإرشادات الطبية بين WHO وNICE",
+    guidelineComparisonTitle: "مقارنة الإرشادات الطبية بين WHO 2021 و NICE NG238",
     whoRecommendation: "توصيات منظمة الصحة العالمية (WHO 2021)",
-    niceRecommendation:
-      "توصيات المعهد الوطني للصحة والرعاية (NICE NG136 / NG238)",
-    consensusSummary: "نقاط الاتفاق والاختلاف السريرية",
+    niceRecommendation: "توصيات المعهد البريطاني للصحة (NICE NG238)",
+    consensusSummary: "نقاط التوافق والاختلاف بين الإرشادات",
 
     // Settings Modal
-    settingsTitle: "إعدادات Groq وRAG",
+    settingsTitle: "إعدادات النموذج و RAG",
     groqApiKeyLabel: "مفتاح Groq API",
     groqApiKeyHelp:
-      "يتم تحميله تلقائيًا من متغيرات البيئة في Vercel، ويمكنك تغييره محليًا لأغراض الاختبار.",
-    modelSelectionLabel: "نموذج اللغة الأساسي (LLM)",
-    translationModelLabel: "نموذج الترجمة والاستخلاص",
-    temperatureLabel: "درجة العشوائية في التوليد (Temperature)",
+      "يتم تحميله تلقائيًا من متغيرات البيئة في Vercel بأمان.",
+    modelSelectionLabel: "النموذج اللغوي (LLM)",
+    translationModelLabel: "نموذج المواءمة الدلالية",
+    temperatureLabel: "درجة العشوائية (Temperature)",
     temperatureHelp:
-      "تساعد القيم المنخفضة (0.1 - 0.2) على تقليل الهلوسة والالتزام بشكل أكبر بالإرشادات.",
-    topKLabel: "عدد المقاطع المسترجعة (Top-K)",
+      "القيم المنخفضة (0.15) تضمن الالتزام الصارم بالإرشادات الطبية وتمنع الهلوسة.",
+    topKLabel: "عدد المقاطع (Top-K)",
     topKHelp:
-      "عدد المقاطع المسترجعة من قاعدة المتجهات التي يتم تمريرها إلى سياق النموذج.",
-    confidenceThresholdLabel: "عتبة الثقة لرفض التخمين",
+      "عدد المقاطع الأكثر صلة التي يتم تضمينها في سياق الإجابة.",
+    confidenceThresholdLabel: "عتبة الثقة للأمان الطبي",
     confidenceThresholdHelp:
-      "يمنع النظام من تقديم إجابة حاسمة عندما تكون درجة التشابه الدلالي أقل من العتبة المحددة.",
+      "يمنع النظام من تقديم إجابة عند انخفاض نسبة التشابه الدلالي عن الحد المأمون.",
     saveSettings: "حفظ الإعدادات",
     resetDefaults: "استعادة الإعدادات الافتراضية",
 
     // Rubric Modal
-    rubricModalTitle: "معايير تقييم الهاكاثون للذكاء الاصطناعي السريري (100 نقطة)",
+    rubricModalTitle: "معايير تقييم الهاكاثون (100 نقطة)",
     rubricModalDesc:
-      "تفصيل مدى توافق النظام مع فئات التقييم السريري والتقني السبع.",
+      "تفصيل مدى توافق النظام مع فئات التقييم الطبية والتقنية السبع.",
     rubricTotalScore: "100 / 100",
     maxPointsLabel: "نقطة",
   },
 
   en: {
     appTitle: "CardioRAG",
-    appSubtitle: "Intelligent Clinical Decision Support for Cardiovascular Care",
-    badgeAi: "Clinical Intelligence Powered by RAG",
+    appSubtitle: "Intelligent Clinical Decision Support for Cardiology & Hypertension",
+    badgeAi: "Medical AI Powered by RAG",
     badgeGrounded: "Evidence-Grounded",
-    badgeWhoNice: "NICE & WHO Guidelines",
+    badgeWhoNice: "WHO 2021 & NICE NG238 Guidelines",
 
     // Header & Actions
     newChat: "New Clinical Query",
-    searchHistory: "Search clinical history...",
+    searchHistory: "Search history...",
     settings: "Settings & Models",
-    guidelines: "Indexed Guidelines",
+    guidelines: "Approved Guidelines",
     rubricEvaluation: "Hackathon Evaluation",
     rubricScore: "100 Points",
     ragInspector: "RAG Inspector",
@@ -135,11 +134,11 @@ export const translations = {
     langToggle: "العربية",
     clearHistory: "Clear History",
     noHistory: "No previous conversations",
-    deleteSession: "Delete Conversation",
+    deleteSession: "Delete Query",
     renameSession: "Rename",
 
     // Sidebar & Prompt Library
-    chatHistory: "Chat History",
+    chatHistory: "Query History",
     promptsLibrary: "Clinical Question Bank (20 Questions)",
     promptCategories: {
       all: "All Questions",
@@ -148,48 +147,48 @@ export const translations = {
       safety_pregnancy: "Medication Safety in Pregnancy",
       risk_tools: "Risk Assessment Tools (QRISK)",
       lifestyle: "Lifestyle & Nutrition",
-      guideline_comparison: "WHO vs NICE Guidelines",
+      guideline_comparison: "WHO 2021 vs NICE NG238 Guidelines",
     },
 
     // Chat & Input
     inputPlaceholder:
-      "Ask a clinical question about blood pressure, statins, or NICE and WHO guidelines...",
+      "Ask a medical question about blood pressure, statins, or WHO 2021 and NICE NG238 guidelines...",
     sendButton: "Send Query",
     stopButton: "Stop Generating",
-    translatingQuery: "Translating query for semantic search...",
-    searchingGuidelines: "Searching NICE & WHO guidelines...",
-    generatingAnswer: "Generating an evidence-based clinical answer...",
+    translatingQuery: "Aligning query for semantic search...",
+    searchingGuidelines: "Searching WHO 2021 & NICE NG238 guidelines...",
+    generatingAnswer: "Generating an evidence-grounded medical answer...",
 
     // Message & Citations
     assistantName: "CardioRAG AI",
-    userName: "Clinician / User",
+    userName: "Clinician",
     evidenceLevel: "Evidence Level",
     groundedScore: "Evidence Grounding Score",
-    citationsCount: "Citations",
-    showChunks: "Show Retrieved Chunks",
-    hideChunks: "Hide Chunks",
-    compareGuidelines: "Compare Guidelines (WHO vs NICE)",
+    citationsCount: "Approved Sources",
+    showChunks: "Show Retrieved Evidence",
+    hideChunks: "Hide Evidence",
+    compareGuidelines: "Compare Guidelines (WHO 2021 vs NICE NG238)",
     copyAnswer: "Copy Answer",
     copied: "Copied Successfully",
     audioReadout: "Listen to Answer",
     translationBreakdown: "Query Translation Pipeline",
     originalArabicQuery: "Original Query",
-    translatedEnglishQuery: "Translated Query for Vector Search",
+    translatedEnglishQuery: "Medical Search Terms for Vector Matching",
     insufficientEvidenceAlert:
-      "Clinical Alert: Retrieved evidence is insufficient to provide a definitive recommendation. Avoid unsupported clinical conclusions.",
+      "Medical Alert: Retrieved evidence is insufficient to provide a definitive recommendation on this specific topic. Generation was gated to preserve clinical safety.",
     clinicalDisclaimer:
-      "Clinical Safety Note: This system is a clinical decision support tool for healthcare professionals and does not replace comprehensive clinical assessment and judgment.",
+      "Safety Note: CardioRAG is an evidence-based clinical decision support tool grounded in WHO 2021 & NICE NG238. It does not replace independent professional medical judgment.",
 
     // RAG Inspector Drawer
     ragInspectorTitle: "Retrieval Transparency (RAG Inspector)",
     ragInspectorDesc:
-      "Inspect retrieved chunks, similarity scores, and guideline sections before answer generation.",
-    retrievedChunksTitle: "Top-k Retrieved Chunks",
+      "Inspect retrieved evidence chunks, similarity scores, and guideline sections before answer generation.",
+    retrievedChunksTitle: "Top-k Retrieved Evidence",
     similarityScore: "Semantic Similarity Score",
-    chunkSource: "Source & Identifier",
+    chunkSource: "Guideline Source",
     chunkPage: "Page",
-    chunkSection: "Clinical Section",
-    metricsBreakdown: "Performance & Response Time",
+    chunkSection: "Section / Recommendation",
+    metricsBreakdown: "Performance & Response Latency",
     retrievalLatency: "Vector Retrieval Time",
     generationLatency: "LLM Generation Time",
     totalLatency: "Total Response Time",
@@ -198,35 +197,34 @@ export const translations = {
     faithfulness: "Faithfulness Score",
 
     // Guideline Comparison
-    guidelineComparisonTitle: "WHO vs NICE Guideline Comparison",
+    guidelineComparisonTitle: "WHO 2021 vs NICE NG238 Guideline Comparison",
     whoRecommendation: "World Health Organization Recommendations (WHO 2021)",
-    niceRecommendation:
-      "National Institute for Health and Care Excellence Recommendations (NICE NG136 / NG238)",
-    consensusSummary: "Clinical Areas of Agreement & Divergence",
+    niceRecommendation: "National Institute for Health and Care Excellence (NICE NG238)",
+    consensusSummary: "Clinical Consensus & Divergence",
 
     // Settings Modal
-    settingsTitle: "Groq & RAG Configuration",
+    settingsTitle: "Model & RAG Configuration",
     groqApiKeyLabel: "Groq API Key",
     groqApiKeyHelp:
-      "Automatically loaded from Vercel environment variables. You can override it locally for testing.",
+      "Automatically and securely loaded from Vercel environment variables.",
     modelSelectionLabel: "Primary Language Model (LLM)",
-    translationModelLabel: "Translation & Extraction Model",
+    translationModelLabel: "Semantic Alignment Model",
     temperatureLabel: "Generation Temperature",
     temperatureHelp:
-      "Lower values (0.1 - 0.2) help reduce hallucinations and improve adherence to the guidelines.",
+      "Low temperature (0.15) ensures strict adherence to medical guidelines and prevents hallucination.",
     topKLabel: "Retrieved Chunks (Top-K)",
     topKHelp:
-      "Number of retrieved vector chunks passed into the model context.",
+      "Number of top-ranked evidence chunks passed into the model context.",
     confidenceThresholdLabel: "Confidence Threshold for Refusal",
     confidenceThresholdHelp:
-      "Prevents the system from providing a definitive answer when semantic similarity falls below the selected threshold.",
+      "Prevents the system from speculating when semantic similarity falls below the safety threshold.",
     saveSettings: "Save Settings",
     resetDefaults: "Reset to Defaults",
 
     // Rubric Modal
     rubricModalTitle: "Clinical AI Hackathon Evaluation Criteria (100 Points)",
     rubricModalDesc:
-      "Overview of the system's alignment with the seven clinical and technical evaluation categories.",
+      "Overview of the system's alignment with the seven evaluation categories.",
     rubricTotalScore: "100 / 100",
     maxPointsLabel: "Points",
   },

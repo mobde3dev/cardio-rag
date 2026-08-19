@@ -6,7 +6,6 @@ import { ChatSidebar } from "@/components/sidebar/ChatSidebar";
 import { ChatContainer } from "@/components/chat/ChatContainer";
 import { ChatInput } from "@/components/chat/ChatInput";
 import { RagInspectorDrawer } from "@/components/rag/RagInspectorDrawer";
-import { RubricModal } from "@/components/rag/RubricModal";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useTheme } from "@/hooks/useTheme";
 import { useSessions } from "@/hooks/useSessions";
@@ -17,9 +16,8 @@ import { AppSettings } from "@/types/settings";
 export default function Home() {
   const { language, isRTL, toggleLanguage, t, mounted: langMounted } = useLanguage();
   const { theme, isDark, toggleTheme, mounted: themeMounted } = useTheme();
-  const [settings, setSettings] = useState<AppSettings>(() => storageService.getSettings());
+  const [settings] = useState<AppSettings>(() => storageService.getSettings());
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isRubricOpen, setIsRubricOpen] = useState(false);
 
   const {
     sessions,
@@ -80,15 +78,6 @@ export default function Home() {
           onToggleLanguage={toggleLanguage}
           isDark={isDark}
           onToggleTheme={toggleTheme}
-          selectedModel={settings.selectedModel}
-          onChangeModel={(modelId) => {
-            const updated = { ...settings, selectedModel: modelId };
-            setSettings(updated);
-            storageService.saveSettings(updated);
-          }}
-          settings={settings}
-          onSaveSettings={setSettings}
-          onOpenRubric={() => setIsRubricOpen(true)}
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
         />
 
@@ -115,13 +104,6 @@ export default function Home() {
         isOpen={!!selectedInspectChunkMessage}
         onClose={() => setSelectedInspectChunkMessage(null)}
         message={selectedInspectChunkMessage}
-        language={language}
-      />
-
-      {/* Rubric Evaluation Modal (100 Pts Breakdown) */}
-      <RubricModal
-        isOpen={isRubricOpen}
-        onClose={() => setIsRubricOpen(false)}
         language={language}
       />
     </div>

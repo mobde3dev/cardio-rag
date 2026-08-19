@@ -6,7 +6,7 @@ import { ChunkCard } from "./ChunkCard";
 import { GuidelineComparison } from "./GuidelineComparison";
 import { ChatMessage } from "@/types/chat";
 import { Language, getTranslation } from "@/i18n";
-import { Activity, Clock, Zap, Target } from "lucide-react";
+import { Activity, Clock, Zap, Target, Layers, ArrowRight, ArrowLeft, Languages } from "lucide-react";
 
 interface RagInspectorDrawerProps {
   isOpen: boolean;
@@ -22,6 +22,9 @@ export const RagInspectorDrawer: React.FC<RagInspectorDrawerProps> = ({
   language,
 }) => {
   const t = getTranslation(language);
+  const isRTL = language === "ar";
+  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
+
   if (!message) return null;
 
   const chunks = message.retrievedChunks || [];
@@ -34,7 +37,67 @@ export const RagInspectorDrawer: React.FC<RagInspectorDrawerProps> = ({
       title={t.ragInspectorTitle}
       subtitle={t.ragInspectorDesc}
     >
-      <div className="space-y-6">
+      <div className="space-y-5 text-start">
+        {/* RAG Pipeline Flow Visual Card */}
+        <div className="rounded-2xl border border-medical-200/90 dark:border-medical-900/60 bg-medical-50/50 dark:bg-medical-950/40 p-3.5 space-y-2.5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-medical-800 dark:text-medical-200 flex items-center gap-1.5">
+              <Layers className="h-3.5 w-3.5 text-medical-600 dark:text-medical-400" />
+              <span>{language === "ar" ? "مسار المعالجة السريرية (Pipeline)" : "Clinical RAG Architecture"}</span>
+            </span>
+            <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-full bg-medical-100 dark:bg-medical-900/80 text-medical-800 dark:text-medical-200">
+              BGE-M3 + Rerank
+            </span>
+          </div>
+
+          {/* Pipeline Steps Chips */}
+          <div className="flex flex-wrap items-center gap-1.5 text-[10.5px] font-mono text-slate-700 dark:text-slate-300">
+            <span className="px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs font-semibold">
+              1. Query Embedding
+            </span>
+            <ArrowIcon className="h-3 w-3 text-slate-400 shrink-0" />
+            <span className="px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs font-semibold">
+              2. pgvector (Top 15)
+            </span>
+            <ArrowIcon className="h-3 w-3 text-slate-400 shrink-0" />
+            <span className="px-2 py-1 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xs font-semibold">
+              3. Reranker (Top 5)
+            </span>
+            <ArrowIcon className="h-3 w-3 text-slate-400 shrink-0" />
+            <span className="px-2 py-1 rounded-lg bg-medical-600 text-white font-bold shadow-2xs">
+              4. Groq LLM
+            </span>
+          </div>
+        </div>
+
+        {/* Cross-Lingual Translation Step (if query was translated) */}
+        {message.translation && (
+          <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 p-3.5 space-y-2">
+            <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-200">
+              <Languages className="h-3.5 w-3.5 text-medical-600 dark:text-medical-400" />
+              <span>{language === "ar" ? "الترجمة الطبية للاسترجاع الدلالي" : "Cross-Lingual Query Alignment"}</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+              <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+                <span className="text-[10px] font-semibold text-slate-400 block mb-0.5">
+                  {language === "ar" ? "الاستعلام العربي الأصلي" : "Original Query"}
+                </span>
+                <p className="text-slate-800 dark:text-slate-200 font-medium">
+                  {message.translation.originalQuery}
+                </p>
+              </div>
+              <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800">
+                <span className="text-[10px] font-semibold text-slate-400 block mb-0.5">
+                  {language === "ar" ? "المصطلحات الطبية للتضمين (BGE-M3)" : "Translated Medical Search Query"}
+                </span>
+                <p className="text-slate-800 dark:text-slate-200 font-medium font-mono text-[11px]">
+                  {message.translation.translatedQuery}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Latency & Metrics Breakdown */}
         {metrics && (
           <div className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-950/60 p-4 space-y-3">
@@ -80,7 +143,7 @@ export const RagInspectorDrawer: React.FC<RagInspectorDrawerProps> = ({
           </div>
         )}
 
-        {/* Guideline Comparison */}
+        {/* Guideline Comparison (NICE vs WHO) */}
         {message.guidelineComparison && (
           <GuidelineComparison
             comparison={message.guidelineComparison}
@@ -95,7 +158,7 @@ export const RagInspectorDrawer: React.FC<RagInspectorDrawerProps> = ({
               {t.retrievedChunksTitle} ({chunks.length})
             </h4>
             <span className="text-[10px] font-mono text-emerald-600 dark:text-emerald-400">
-              Threshold &gt; 0.70
+              Similarity &gt; 0.70
             </span>
           </div>
 
