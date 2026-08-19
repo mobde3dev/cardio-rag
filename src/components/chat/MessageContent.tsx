@@ -1,12 +1,16 @@
 "use client";
 
 import React from "react";
+import { clsx } from "clsx";
 
 interface MessageContentProps {
   content: string;
 }
 
 export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
+  // Check if string contains Arabic characters
+  const isArabicText = (text: string) => /[\u0600-\u06FF]/.test(text);
+
   // Format inline bold/italic/code strings and HTML line breaks (<br>, <br/>)
   const formatInline = (text: string) => {
     // Split by <br>, bold (**text**), code (`text`), or italic (*text*)
@@ -92,8 +96,11 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
                   {headerRow.map((cell, cIdx) => (
                     <th
                       key={cIdx}
-                      dir="auto"
-                      className="px-3.5 py-2.5 text-start font-semibold text-slate-900 dark:text-slate-100 tracking-tight"
+                      dir={isArabicText(cell) ? "rtl" : "ltr"}
+                      className={clsx(
+                        "px-3.5 py-2.5 font-semibold text-slate-900 dark:text-slate-100 tracking-tight",
+                        isArabicText(cell) ? "text-right" : "text-left"
+                      )}
                     >
                       {formatInline(cell)}
                     </th>
@@ -109,8 +116,11 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
                     {row.map((cell, cIdx) => (
                       <td
                         key={cIdx}
-                        dir="auto"
-                        className="px-3.5 py-2.5 text-start text-slate-700 dark:text-slate-300 leading-relaxed align-top"
+                        dir={isArabicText(cell) ? "rtl" : "ltr"}
+                        className={clsx(
+                          "px-3.5 py-2.5 text-slate-700 dark:text-slate-300 leading-relaxed align-top",
+                          isArabicText(cell) ? "text-right" : "text-left"
+                        )}
                       >
                         {formatInline(cell)}
                       </td>
@@ -148,13 +158,18 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
         flushTable(idx);
       }
 
+      const hasArabic = isArabicText(line);
+
       // Headers (H3 / H2 / H4)
       if (line.startsWith("### ") || line.startsWith("## ")) {
         elements.push(
           <h4
             key={idx}
-            dir="auto"
-            className="text-sm sm:text-[15px] font-bold text-teal-700 dark:text-teal-300 mt-4 mb-2 tracking-tight flex items-center gap-1.5"
+            dir={hasArabic ? "rtl" : "ltr"}
+            className={clsx(
+              "text-sm sm:text-[15px] font-bold text-teal-700 dark:text-teal-300 mt-4 mb-2 tracking-tight flex items-center gap-1.5",
+              hasArabic ? "text-right" : "text-left"
+            )}
           >
             {line.replace(/^#+\s*/, "")}
           </h4>
@@ -171,8 +186,11 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
         elements.push(
           <h5
             key={idx}
-            dir="auto"
-            className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mt-3 mb-1.5"
+            dir={hasArabic ? "rtl" : "ltr"}
+            className={clsx(
+              "text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mt-3 mb-1.5",
+              hasArabic ? "text-right" : "text-left"
+            )}
           >
             {trimmed.replace(/\*\*/g, "")}
           </h5>
@@ -188,11 +206,15 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
         !trimmed.startsWith("**")
       ) {
         const cleanText = trimmed.slice(1, -1).trim();
+        const noteHasArabic = isArabicText(cleanText);
         elements.push(
           <p
             key={idx}
-            dir="auto"
-            className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium my-2 leading-relaxed bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-slate-200/60 dark:border-slate-800"
+            dir={noteHasArabic ? "rtl" : "ltr"}
+            className={clsx(
+              "text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium my-2 leading-relaxed bg-slate-50 dark:bg-slate-800/40 px-3 py-2 rounded-xl border border-slate-200/60 dark:border-slate-800",
+              noteHasArabic ? "text-right" : "text-left"
+            )}
           >
             {formatInline(cleanText)}
           </p>
@@ -202,13 +224,18 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
 
       // Unordered list
       if (trimmed.startsWith("- ") || trimmed.startsWith("• ")) {
+        const itemContent = trimmed.replace(/^[-•]\s*/, "");
+        const itemHasArabic = isArabicText(itemContent);
         elements.push(
           <li
             key={idx}
-            dir="auto"
-            className="text-[13.5px] sm:text-[14.5px] text-slate-700 dark:text-slate-200 leading-relaxed ms-5 list-disc my-1.5"
+            dir={itemHasArabic ? "rtl" : "ltr"}
+            className={clsx(
+              "text-[13.5px] sm:text-[14.5px] text-slate-700 dark:text-slate-200 leading-relaxed list-disc my-1.5",
+              itemHasArabic ? "text-right mr-5 ms-5" : "text-left ms-5"
+            )}
           >
-            {formatInline(trimmed.replace(/^[-•]\s*/, ""))}
+            {formatInline(itemContent)}
           </li>
         );
         return;
@@ -216,13 +243,18 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
 
       // Ordered list
       if (/^\d+\.\s/.test(trimmed)) {
+        const itemContent = trimmed.replace(/^\d+\.\s*/, "");
+        const itemHasArabic = isArabicText(itemContent);
         elements.push(
           <li
             key={idx}
-            dir="auto"
-            className="text-[13.5px] sm:text-[14.5px] text-slate-700 dark:text-slate-200 leading-relaxed ms-5 list-decimal my-1.5"
+            dir={itemHasArabic ? "rtl" : "ltr"}
+            className={clsx(
+              "text-[13.5px] sm:text-[14.5px] text-slate-700 dark:text-slate-200 leading-relaxed list-decimal my-1.5",
+              itemHasArabic ? "text-right mr-5 ms-5" : "text-left ms-5"
+            )}
           >
-            {formatInline(trimmed.replace(/^\d+\.\s*/, ""))}
+            {formatInline(itemContent)}
           </li>
         );
         return;
@@ -238,8 +270,11 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
       elements.push(
         <p
           key={idx}
-          dir="auto"
-          className="text-[13.5px] sm:text-[14.5px] text-slate-800 dark:text-slate-200 leading-relaxed my-1.5 font-normal"
+          dir={hasArabic ? "rtl" : "ltr"}
+          className={clsx(
+            "text-[13.5px] sm:text-[14.5px] text-slate-800 dark:text-slate-200 leading-relaxed my-1.5 font-normal",
+            hasArabic ? "text-right" : "text-left"
+          )}
         >
           {formatInline(line)}
         </p>
@@ -254,7 +289,7 @@ export const MessageContent: React.FC<MessageContentProps> = ({ content }) => {
   };
 
   return (
-    <div dir="auto" className="space-y-1 text-start">
+    <div className="space-y-1">
       {renderFormattedElements(content)}
     </div>
   );
