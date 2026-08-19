@@ -255,7 +255,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           onKeyDown={handleKeyDown}
           placeholder={t.inputPlaceholder}
           rows={1}
-          dir="auto"
+          dir={language === "ar" ? "rtl" : "ltr"}
           disabled={isLoading}
           className="
             w-full
@@ -309,8 +309,8 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       {/* Persistent Single Clinical Safety Disclaimer */}
       <p className="text-[11px] text-center text-slate-600 dark:text-slate-400 mt-2 px-2 leading-relaxed">
         {language === "ar"
-          ? "CardioRAG أداة مساعدة لدعم القرار السريري مستندة إلى أدلة WHO 2021 و NICE NG136/NG238. لا تغني عن الفحص والتقييم السريري المستقل."
-          : "CardioRAG is an AI clinical decision support tool grounded in WHO 2021 & NICE guidelines. Not a substitute for professional clinical judgment."}
+          ? "CardioRAG أداة مساعدة لدعم القرار الطبي مستندة إلى إرشادات WHO 2021 و NICE NG238. لا تغني عن الفحص والتقييم الطبي المستقل."
+          : "CardioRAG is an AI medical decision support tool grounded in WHO 2021 & NICE NG238. Not a substitute for independent medical judgment."}
       </p>
     </div>
   );

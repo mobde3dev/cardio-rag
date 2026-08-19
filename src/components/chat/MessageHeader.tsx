@@ -1,10 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { Copy, Check, Volume2, Bot, User } from "lucide-react";
+import { Copy, Check, Volume2, HeartPulse, User } from "lucide-react";
 import { Role } from "@/types/chat";
 import { Language, getTranslation } from "@/i18n";
-import { Badge } from "@/components/ui/Badge";
 
 interface MessageHeaderProps {
   role: Role;
@@ -19,7 +18,6 @@ export const MessageHeader: React.FC<MessageHeaderProps> = ({
   timestamp,
   content,
   language,
-  modelName,
 }) => {
   const [copied, setCopied] = useState(false);
   const t = getTranslation(language);
@@ -45,29 +43,24 @@ export const MessageHeader: React.FC<MessageHeaderProps> = ({
   });
 
   return (
-    <div className="flex items-center justify-between pb-2 mb-2 border-b border-slate-100 dark:border-slate-800/80">
+    <div className="flex items-center justify-between pb-2.5 mb-2.5 border-b border-slate-100 dark:border-slate-800/80">
       <div className="flex items-center gap-2 min-w-0">
         <div
-          className={`flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-lg shrink-0 ${
+          className={`flex h-7 w-7 items-center justify-center rounded-xl shrink-0 shadow-xs ${
             role === "assistant"
-              ? "bg-medical-600 text-white"
+              ? "bg-gradient-to-tr from-teal-600 to-teal-500 text-white"
               : "bg-slate-700 text-white"
           }`}
         >
           {role === "assistant" ? (
-            <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <HeartPulse className="h-4 w-4" />
           ) : (
-            <User className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+            <User className="h-4 w-4" />
           )}
         </div>
-        <span className="text-xs sm:text-[13px] font-bold text-slate-800 dark:text-slate-200 truncate">
+        <span className="text-xs sm:text-[13.5px] font-bold text-slate-800 dark:text-slate-100 truncate">
           {role === "assistant" ? t.assistantName : t.userName}
         </span>
-        {modelName && role === "assistant" && (
-          <Badge variant="medical" size="sm" className="hidden sm:inline-flex max-w-[140px] truncate text-[10px]">
-            {modelName.split("/")[1] || modelName}
-          </Badge>
-        )}
         <span className="text-[10px] text-slate-400 font-mono shrink-0">
           {formattedTime}
         </span>
@@ -79,7 +72,7 @@ export const MessageHeader: React.FC<MessageHeaderProps> = ({
             onClick={handleAudio}
             title={t.audioReadout}
             aria-label="Listen to answer"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-medical-600 dark:hover:text-medical-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-h-[34px] min-w-[34px] flex items-center justify-center"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
           >
             <Volume2 className="h-4 w-4" />
           </button>
@@ -87,7 +80,7 @@ export const MessageHeader: React.FC<MessageHeaderProps> = ({
             onClick={handleCopy}
             title={t.copyAnswer}
             aria-label="Copy answer text"
-            className="p-1.5 rounded-lg text-slate-400 hover:text-medical-600 dark:hover:text-medical-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-h-[34px] min-w-[34px] flex items-center justify-center"
+            className="p-1.5 rounded-lg text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors min-h-[32px] min-w-[32px] flex items-center justify-center"
           >
             {copied ? (
               <Check className="h-4 w-4 text-emerald-500" />

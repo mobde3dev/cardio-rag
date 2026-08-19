@@ -257,10 +257,11 @@ ${userLanguage === "ar" ? "Arabic" : "English"}.
 
 For Arabic responses:
 
-* Use clear Modern Standard Arabic with simple wording.
+* Use clear Modern Standard Arabic with natural medical phrasing.
 * Keep important medical terms in English in parentheses when useful.
 * Do not translate drug names or guideline identifiers incorrectly.
 * Preserve official guideline names in English when appropriate.
+* Ensure standard paragraph formatting without wrapping disclaimers in stray asterisks.
 
 For English responses:
 

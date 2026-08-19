@@ -53,11 +53,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={language === "ar" ? "تسجيل الدخول السريري" : "Clinician Sign In"}
+      title={language === "ar" ? "تسجيل دخول الأطباء" : "Clinician Sign In"}
       description={
         language === "ar"
-          ? "سجل دخولك لحفظ سجل المحادثات السريرية الخاص بك فقط عبر Supabase RLS."
-          : "Sign in to isolate and sync your clinical chat history via Supabase RLS."
+          ? "سجل دخولك لحفظ ومزامنة سجل الاستفسارات الطبية بأمان."
+          : "Sign in to isolate and sync your clinical query history securely."
       }
       maxWidth="sm"
     >
