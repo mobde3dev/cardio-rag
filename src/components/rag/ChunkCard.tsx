@@ -17,21 +17,21 @@ export const ChunkCard: React.FC<ChunkCardProps> = ({
 }) => {
   return (
     <div className="rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-4 space-y-3 shadow-xs">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-2">
-        <div dir="ltr" className="text-left">
-          <span className="text-[10.5px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
+      {/* Header - Enforce LTR for English guideline header */}
+      <div dir="ltr" className="space-y-1.5 text-left">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-[11px] font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wider">
             {chunk.source} • Reference #{index + 1}
           </span>
-          <h4 className="text-xs sm:text-[13px] font-bold text-slate-900 dark:text-slate-100 mt-0.5">
-            {chunk.title}
-          </h4>
+          {chunk.recommendationStrength && (
+            <Badge variant="medical" size="sm" className="shrink-0">
+              {chunk.recommendationStrength}
+            </Badge>
+          )}
         </div>
-        {chunk.recommendationStrength && (
-          <Badge variant="medical" size="sm" className="shrink-0">
-            {chunk.recommendationStrength}
-          </Badge>
-        )}
+        <h4 className="text-xs sm:text-[13.5px] font-bold text-slate-900 dark:text-slate-100">
+          {chunk.title}
+        </h4>
       </div>
 
       {/* Section & Page Info (Always English Guidelines metadata) */}
