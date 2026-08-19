@@ -255,6 +255,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
           onKeyDown={handleKeyDown}
           placeholder={t.inputPlaceholder}
           rows={1}
+          dir="auto"
           disabled={isLoading}
           className="
             w-full

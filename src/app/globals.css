@@ -92,12 +92,18 @@ button, a, input, select, textarea, [role="button"] {
   padding-right: var(--sar);
 }
 
+/* Automatic Bi-Directional text rendering for Arabic/English mixed sentences */
+[dir="auto"] {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+
 /* Clinical Table Responsive Container */
 .clinical-table-wrapper {
   width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  margin: 0.75rem 0;
+  margin: 0.875rem 0;
   border-radius: 0.75rem;
   border: 1px solid rgba(226, 232, 240, 0.9);
 }
@@ -108,15 +114,15 @@ button, a, input, select, textarea, [role="button"] {
 
 .clinical-table {
   width: 100%;
-  min-width: 480px;
+  min-width: 520px;
   border-collapse: collapse;
-  font-size: 0.75rem;
-  line-height: 1.25rem;
+  font-size: 0.8125rem;
+  line-height: 1.35rem;
 }
 
 .clinical-table th {
-  background-color: rgba(248, 250, 252, 0.9);
-  padding: 0.5rem 0.75rem;
+  background-color: rgba(248, 250, 252, 0.95);
+  padding: 0.625rem 0.875rem;
   font-weight: 600;
   text-align: start;
   border-bottom: 1px solid rgba(226, 232, 240, 0.9);
@@ -124,15 +130,16 @@ button, a, input, select, textarea, [role="button"] {
 }
 
 .dark .clinical-table th {
-  background-color: rgba(15, 23, 42, 0.9);
+  background-color: rgba(15, 23, 42, 0.95);
   border-color: rgba(51, 65, 85, 0.8);
   color: rgb(241 245 249);
 }
 
 .clinical-table td {
-  padding: 0.5rem 0.75rem;
+  padding: 0.625rem 0.875rem;
   border-bottom: 1px solid rgba(241, 245, 249, 0.8);
   color: rgb(51 65 85);
+  vertical-align: top;
 }
 
 .dark .clinical-table td {
