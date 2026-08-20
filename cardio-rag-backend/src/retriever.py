@@ -2,17 +2,15 @@ import os
 from typing import Optional
 
 from dotenv import load_dotenv
+from huggingface_hub import InferenceClient
 from supabase import create_client
-import requests
-import numpy as np
-import math
 
 from .query_classifier import (
     classify_query,
     QueryProfile,
 )
 import sys
-
+import numpy as np
 
 # ============================================================
 # UTF-8 OUTPUT FIX FOR WINDOWS
@@ -38,72 +36,92 @@ load_dotenv(
     override=True
 )
 
-SUPABASE_URL = os.environ[
-    "SUPABASE_URL"
-]
-
-SUPABASE_SECRET_KEY = os.environ[
-    "SUPABASE_KEY"
-]
-
-CLOUDFLARE_ACCOUNT_ID = os.environ[
-    "CLOUDFLARE_ACCOUNT_ID"
-]
-
-CLOUDFLARE_API_TOKEN = os.environ[
-    "CLOUDFLARE_API_TOKEN"
-]
-
-CLOUDFLARE_EMBED_MODEL = os.getenv(
-    "CLOUDFLARE_EMBED_MODEL",
-    "@cf/baai/bge-m3"
+MODEL_NAME = os.getenv(
+    "EMBEDDING_MODEL",
+    "BAAI/bge-m3",
 )
 
-MODEL_NAME = "BAAI/bge-m3"
+HF_TOKEN = os.getenv("HF_TOKEN")
 
-def encode_query(query: str):
+SUPABASE_URL = os.getenv(
+    "SUPABASE_URL"
+)
 
-    url = (
-        "https://api.cloudflare.com/client/v4/accounts/"
-        f"{CLOUDFLARE_ACCOUNT_ID}/ai/v1/embeddings"
+SUPABASE_SECRET_KEY = os.getenv(
+    "SUPABASE_KEY"
+)
+
+if not SUPABASE_URL:
+    raise RuntimeError(
+        "SUPABASE_URL is not configured in .env"
     )
 
-    response = requests.post(
-        url,
-        headers={
-            "Authorization":
-                f"Bearer {CLOUDFLARE_API_TOKEN}",
-
-            "Content-Type":
-                "application/json",
-        },
-        json={
-            "model":
-                CLOUDFLARE_EMBED_MODEL,
-
-            "input":
-                query,
-        },
-        timeout=30,
+if not SUPABASE_SECRET_KEY:
+    raise RuntimeError(
+        "SUPABASE_KEY is not configured in .env"
     )
 
-    response.raise_for_status()
-
-    data = response.json()
-
-    embedding = np.asarray(
-        data["data"][0]["embedding"],
-        dtype=np.float32,
+if not HF_TOKEN:
+    raise RuntimeError(
+        "HF_TOKEN is not configured for Hugging Face inference."
     )
 
-    if embedding.shape != (1024,):
+print(
+    f"Using Hugging Face embedding API: {MODEL_NAME}"
+)
+
+hf_client = InferenceClient(
+    provider="hf-inference",
+    api_key=HF_TOKEN,
+    timeout=60,
+)
+
+
+def encode_query(
+    query: str,
+) -> list[float]:
+
+    query = query.strip()
+
+    if not query:
         raise ValueError(
-            "Unexpected embedding dimension: "
-            f"{embedding.shape}"
+            "Query cannot be empty."
         )
 
-    return embedding.tolist()
+    try:
+        embedding = np.asarray(
+            hf_client.feature_extraction(
+                query,
+                model=MODEL_NAME,
+            ),
+            dtype=np.float32,
+        )
+    except Exception as error:
+        raise RuntimeError(
+            "Hugging Face embedding request failed: "
+            f"{error}"
+        ) from error
 
+    if embedding.ndim == 3 and embedding.shape[0] == 1:
+        embedding = embedding[0]
+
+    if embedding.ndim == 2:
+        embedding = embedding.mean(axis=0)
+
+    if embedding.shape != (1024,):
+        raise RuntimeError(
+            "Unexpected embedding dimension: "
+            f"{embedding.shape}; expected (1024,)"
+        )
+
+    norm = np.linalg.norm(embedding)
+
+    if not np.isfinite(norm) or norm == 0:
+        raise RuntimeError(
+            "Hugging Face returned an invalid zero or non-finite embedding."
+        )
+
+    return (embedding / norm).astype(float).tolist()
 
 
 # ============================================================
@@ -117,117 +135,6 @@ supabase = create_client(
     SUPABASE_SECRET_KEY
 )
 
-def encode_query(
-    query: str
-) -> list[float]:
-
-    url = (
-        "https://api.cloudflare.com/"
-        "client/v4/accounts/"
-        f"{CLOUDFLARE_ACCOUNT_ID}"
-        "/ai/run/"
-        f"{CLOUDFLARE_EMBED_MODEL}"
-    )
-
-    response = requests.post(
-        url,
-        headers={
-            "Authorization":
-                f"Bearer {CLOUDFLARE_API_TOKEN}",
-
-            "Content-Type":
-                "application/json",
-        },
-        json={
-            "text": [
-                query
-            ]
-        },
-        timeout=30,
-    )
-
-    if not response.ok:
-
-        raise RuntimeError(
-            "Cloudflare embedding request failed "
-            f"({response.status_code}): "
-            f"{response.text}"
-        )
-
-    payload = response.json()
-
-    if not payload.get(
-        "success",
-        False
-    ):
-
-        raise RuntimeError(
-            "Cloudflare returned an unsuccessful "
-            f"response: {payload}"
-        )
-
-    result = payload.get(
-        "result"
-    )
-
-    if not result:
-
-        raise RuntimeError(
-            "Cloudflare response does not contain "
-            "'result'."
-        )
-
-    # Expected Workers AI embedding response:
-    #
-    # result = {
-    #   "shape": [1, 1024],
-    #   "data": [[...1024 floats...]]
-    # }
-
-    data = result.get(
-        "data"
-    )
-
-    if not data:
-
-        raise RuntimeError(
-            "Cloudflare response does not contain "
-            "embedding data."
-        )
-
-    embedding = data[0]
-
-    if len(
-        embedding
-    ) != 1024:
-
-        raise RuntimeError(
-            "Unexpected Cloudflare embedding "
-            f"dimension: {len(embedding)} "
-            "(expected 1024)"
-        )
-
-    # Normalize explicitly because your existing
-    # pgvector pipeline was built around normalized
-    # BGE-M3 embeddings.
-    norm = math.sqrt(
-        sum(
-            value * value
-            for value in embedding
-        )
-    )
-
-    if norm == 0:
-        raise RuntimeError(
-            "Cloudflare returned a zero embedding."
-        )
-
-    normalized_embedding = [
-        float(value / norm)
-        for value in embedding
-    ]
-
-    return normalized_embedding
 
 # ============================================================
 # VECTOR SEARCH
