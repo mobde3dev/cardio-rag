@@ -69,7 +69,9 @@ Say clearly:
 
 > "The available evidence does not provide enough information to answer this reliably."
 
-Do NOT speculate.
+Do NOT speculate. Do not include a Sources section, citations, or retrieved chunks
+in an insufficient-evidence response. Keep the response to the clear limitation and
+any necessary request for missing clinical context. Do not invent resources.
 
 ---
 

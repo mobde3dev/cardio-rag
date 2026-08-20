@@ -62,13 +62,15 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         <MessageContent content={message.content} />
 
         {/* Citations & Evidence Pill Badges */}
-        {message.citations && message.citations.length > 0 && (
-          <MessageCitations
+        {!message.isInsufficientEvidence &&
+          message.citations &&
+          message.citations.length > 0 && (
+            <MessageCitations
             citations={message.citations}
-            onOpenInspector={() => onOpenInspector(message)}
-            language={language}
-          />
-        )}
+              onOpenInspector={() => onOpenInspector(message)}
+              language={language}
+            />
+          )}
 
         {/* Metrics Badge Strip (Faithfulness, P@k, Latency) */}
         {!isUser && (
