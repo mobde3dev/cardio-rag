@@ -1,0 +1,9 @@
+Question,Expected Source,Found?,P@k,Top_Retrieved_Chunk,Top_BM25_Score
+What BP threshold should trigger starting medication?,"Recommendation 1, Page 3",Yes,0.33,WHO03_0_TBL_002 (p.9),13.86
+What is the target BP for a patient with known CVD?,"Section 3.6, Page 9",Yes,0.67,WHO03_3.6_REC_002 (p.28),19.03
+Can nurses or pharmacists prescribe treatment?,"Section 3.8, Page 10",Yes,0.67,WHO03_0_REC_013 (p.9),9.18
+What's the recommended breast cancer screening interval?,Not covered — expect refusal,Yes (Refusal Triggered),1.00,Refused (Out-of-Scope detected),6.02
+Are laboratory tests required before starting pharmacological treatment?,"Recommendation 2, Page 5",Yes,0.33,WHO03_3.2_REC_001 (p.20),22.82
+When should cardiovascular disease risk assessment be conducted?,"Recommendation 3, Page 6",Yes,0.67,WHO03_3.3_REC_001 (p.22),8.45
+Which drug classes are recommended as first-line agents for hypertension?,"Recommendation 4, Page 7",Yes,0.33,WHO03_3.4_REC_001 (p.23),15.41
+When is combination therapy recommended as initial treatment?,"Recommendation 5, Page 8",Yes,0.33,WHO03_3.5_REC_001 (p.25),7.78
