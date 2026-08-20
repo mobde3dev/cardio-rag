@@ -1,0 +1,39 @@
+{
+  "total_pages": 61,
+  "pages_processed": 47,
+  "pages_skipped": 14,
+  "total_chunks": 104,
+  "chunks_by_type": {
+    "recommendation": 26,
+    "evidence_rationale": 9,
+    "research_methodology": 5,
+    "drug_guidance": 2,
+    "evidence_to_decision": 9,
+    "background": 1,
+    "special_setting": 3,
+    "clinical_threshold": 7,
+    "other": 2,
+    "algorithm": 10,
+    "table": 30
+  },
+  "tables_extracted": 30,
+  "figures_detected": 7,
+  "duplicate_chunks": 11,
+  "validation_errors": 0,
+  "token_statistics": {
+    "total_tokens": 26819,
+    "average_tokens_per_chunk": 257.9,
+    "min_tokens": 8,
+    "max_tokens": 822
+  },
+  "manual_review_pages": [
+    6,
+    15,
+    21,
+    38,
+    39,
+    40,
+    41
+  ],
+  "processing_time_seconds": 7.0
+}
