@@ -71,8 +71,8 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
           </div>
         )}
 
-        {/* Clean Approved Sources Strip */}
-        {!isUser && citations.length > 0 && (
+        {/* Clean Approved Sources Strip (Only when evidence is sufficient and verified) */}
+        {!isUser && !message.isInsufficientEvidence && citations.length > 0 && (
           <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2.5">
             <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
               <span className="text-[11px] font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1 shrink-0">

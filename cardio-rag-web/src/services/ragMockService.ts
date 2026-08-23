@@ -273,7 +273,8 @@ function getFallbackClinicalEvidence(query: string, topK: number = 4): Retrieved
     q.includes("three drug") ||
     q.includes("classes") ||
     q.includes("ضغط الدم") ||
-    q.includes("hypertension")
+    q.includes("hypertension") ||
+    q.includes("blood pressure")
   ) {
     chunks = GUIDELINE_CHUNKS.hypertension_first_line;
     guidelineComparison = {
@@ -290,6 +291,7 @@ function getFallbackClinicalEvidence(query: string, topK: number = 4): Retrieved
     q.includes("شدة") ||
     q.includes("intensity") ||
     q.includes("كوليسترول") ||
+    q.includes("cholesterol") ||
     q.includes("دهون") ||
     q.includes("ldl") ||
     q.includes("target")
@@ -308,14 +310,20 @@ function getFallbackClinicalEvidence(query: string, topK: number = 4): Retrieved
     q.includes("شروط") ||
     q.includes("non-physician") ||
     q.includes("who") ||
-    q.includes("صيادلة")
+    q.includes("صيادلة") ||
+    q.includes("task sharing")
   ) {
     chunks = GUIDELINE_CHUNKS.task_shifting_who;
   } else {
-    chunks = [
-      ...GUIDELINE_CHUNKS.hypertension_first_line,
-      ...GUIDELINE_CHUNKS.statins_intensity,
-    ];
+    // If the query does not match any cardiology clinical guidelines, do NOT invent mock chunks
+    return {
+      chunks: [],
+      citations: [],
+      groundedScore: 0,
+      isInsufficientEvidence: true,
+      guidelineComparison: undefined,
+      retrievalMode: "no_relevant_guidelines",
+    };
   }
 
   const selectedChunks = chunks.slice(0, topK);
@@ -338,7 +346,7 @@ function getFallbackClinicalEvidence(query: string, topK: number = 4): Retrieved
     chunks: selectedChunks,
     citations,
     groundedScore: Math.round(avgSimilarity * 100) / 100,
-    isInsufficientEvidence: avgSimilarity < 0.65,
+    isInsufficientEvidence: false,
     guidelineComparison,
     retrievalMode: "offline_curated_knowledge_base",
   };
@@ -346,8 +354,8 @@ function getFallbackClinicalEvidence(query: string, topK: number = 4): Retrieved
 
 /**
  * Robust CardioRAG evidence retrieval:
- * 1. Attempts live retrieval via Next.js API /api/retrieve (FastAPI / BGE-M3 / Supabase).
- * 2. Falls back gracefully to the built-in clinical guideline database if the backend is unreachable.
+ * 1. Primary priority: Live vector search via /api/retrieve (FastAPI / HuggingFace BGE-M3 / Supabase pgvector).
+ * 2. If evidence has low similarity (< 0.55) or no matches, return empty chunks & isInsufficientEvidence = true.
  */
 export async function retrieveClinicalEvidence(
   query: string,
@@ -382,38 +390,54 @@ export async function retrieveClinicalEvidence(
 
     if (response.ok) {
       const data: BackendResponse = await response.json();
-      const backendChunks = (data.results ?? []).slice(0, topK);
+      const allBackendChunks = data.results ?? [];
 
-      if (backendChunks.length > 0) {
-        const chunks: RetrievedChunk[] = backendChunks.map(mapBackendChunk);
-        const citations = buildCitations(chunks);
+      // Filter out low-similarity chunks (strict clinical threshold >= 0.55)
+      const relevantChunks = allBackendChunks.filter((c) => {
+        const score = c.semantic_score ?? c.similarity ?? 0;
+        return score >= 0.55;
+      });
 
-        const avgSimilarity =
-          chunks.reduce((total, chunk) => total + chunk.similarityScore, 0) /
-          chunks.length;
-
-        const groundedScore = Math.round(avgSimilarity * 100) / 100;
-        const bestScore = Math.max(...chunks.map((c) => c.similarityScore));
-        const isInsufficientEvidence = bestScore < 0.55;
-
-        const guidelineComparison = buildGuidelineComparison(backendChunks);
-
+      if (relevantChunks.length === 0) {
+        // No sufficient evidence in vector database for this specific query
         return {
-          chunks,
-          citations,
-          groundedScore,
-          isInsufficientEvidence,
-          guidelineComparison,
-          retrievalMode: data.retrieval_mode || "live_backend_vector_search",
+          chunks: [],
+          citations: [],
+          groundedScore: 0,
+          isInsufficientEvidence: true,
+          guidelineComparison: undefined,
+          retrievalMode: data.retrieval_mode || "vector_search_insufficient_evidence",
           queryProfile: data.profile,
-          candidateCount: data.candidate_count,
+          candidateCount: data.candidate_count || 0,
         };
       }
+
+      const selectedChunks = relevantChunks.slice(0, topK);
+      const chunks: RetrievedChunk[] = selectedChunks.map(mapBackendChunk);
+      const citations = buildCitations(chunks);
+
+      const avgSimilarity =
+        chunks.reduce((total, chunk) => total + chunk.similarityScore, 0) /
+        chunks.length;
+
+      const groundedScore = Math.round(avgSimilarity * 100) / 100;
+      const guidelineComparison = buildGuidelineComparison(selectedChunks);
+
+      return {
+        chunks,
+        citations,
+        groundedScore,
+        isInsufficientEvidence: false,
+        guidelineComparison,
+        retrievalMode: data.retrieval_mode || "live_backend_vector_search",
+        queryProfile: data.profile,
+        candidateCount: data.candidate_count,
+      };
     }
   } catch (error) {
     console.warn("Live RAG retrieval notice: Falling back to built-in clinical evidence.", error);
   }
 
-  // Fallback to high-quality curated WHO & NICE clinical knowledge base
+  // Fallback if backend server is unreachable
   return getFallbackClinicalEvidence(trimmedQuery, topK);
 }
