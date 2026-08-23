@@ -1,0 +1,6 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "cd cardio-rag-web && npm run build",
+  "outputDirectory": "cardio-rag-web/.next",
+  "installCommand": "cd cardio-rag-web && npm install"
+}
