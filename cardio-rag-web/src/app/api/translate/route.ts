@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
     }
 
     const groqKey =
-      apiKey ||
+      (typeof apiKey === "string" && apiKey.trim().length > 0 ? apiKey.trim() : null) ||
       process.env.GROQ_API_KEY;
 
     const payload = {

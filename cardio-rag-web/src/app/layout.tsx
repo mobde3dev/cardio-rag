@@ -5,7 +5,7 @@ import logo from "./assets/logo.png";
 export const metadata: Metadata = {
   title: "CardioRAG",
   description:
-    "Evidence-based cardiology guidelines RAG assistant powered by Groq, NICE NG136, WHO 2021, and NICE NG238.",
+    "Evidence-based cardiology guidelines decision support assistant grounded exclusively in WHO 2021 and NICE NG238.",
   icons: {
     icon: logo.src,
   },

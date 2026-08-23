@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
     const { messages, model, temperature, apiKey } = await req.json();
 
     const groqKey =
-      apiKey ||
+      (typeof apiKey === "string" && apiKey.trim().length > 0 ? apiKey.trim() : null) ||
       process.env.GROQ_API_KEY;
 
     if (!groqKey) {

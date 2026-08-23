@@ -17,7 +17,6 @@ export interface SampleQuestion {
   questionEn: string;
 
   primaryGuideline:
-    | "NICE NG136"
     | "WHO 2021"
     | "NICE NG238"
     | "Both";
@@ -90,7 +89,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
     categoryLabelAr: "موانع أدوات المخاطر",
     categoryLabelEn: "Risk Assessment Exclusions",
     questionAr:
-      "ما هي الفئات السريرية التي لا ينبغي استخدام أدوات تقييم المخاطر (مثل QRISK) معها لأنها تُعتبر بالفعل عالية الخطورة للإصابة بالأمراض القلبية الوعائية؟",
+      "ما هي الحالات الطبية التي لا ينبغي استخدام أدوات تقييم المخاطر (مثل QRISK) معها لأنها تُعتبر بالفعل عالية الخطورة للإصابة بالأمراض القلبية الوعائية؟",
     questionEn:
       "Which clinical categories should not have cardiovascular risk assessment tools (such as QRISK) applied because they are already considered at high risk of CVD?",
     primaryGuideline: "NICE NG238",
@@ -114,7 +113,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
     categoryLabelAr: "فحوصات ما قبل الستاتين",
     categoryLabelEn: "Pre-Statin Baseline Tests",
     questionAr:
-      "ما هي الفحوصات المخبرية والسريرية الأساسية التي يجب إجراؤها قبل البدء في استخدام الستاتين (Statins)؟",
+      "ما هي الفحوصات المخبرية والطبية الأساسية التي يجب إجراؤها قبل البدء في استخدام الستاتين (Statins)؟",
     questionEn:
       "What are the essential baseline laboratory and clinical tests required prior to starting statin therapy?",
     primaryGuideline: "NICE NG238",
@@ -246,7 +245,7 @@ export const SAMPLE_QUESTIONS: SampleQuestion[] = [
     categoryLabelAr: "آلام العضلات مع الستاتين",
     categoryLabelEn: "Statin Muscle Symptoms Protocol",
     questionAr:
-      "ما هي الإجراءات السريرية التي يجب اتخاذها عندما يبلغ مريض يتناول ستاتين عالي الشدة عن ظهور آلام أو أعراض عضلية غير مبررة؟",
+      "ما هي الإجراءات الطبية التي يجب اتخاذها عندما يبلغ مريض يتناول ستاتين عالي الشدة عن ظهور آلام أو أعراض عضلية غير مبررة؟",
     questionEn:
       "What clinical actions should be taken when a patient on high-intensity statin reports unexplained muscle pain or symptoms?",
     primaryGuideline: "NICE NG238",

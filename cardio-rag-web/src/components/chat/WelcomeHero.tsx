@@ -42,20 +42,18 @@ export const WelcomeHero: React.FC<WelcomeHeroProps> = ({
 
      <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-lg mx-auto leading-relaxed px-2">
   {language === "ar"
-    ? "مساعد ذكي لدعم القرار السريري، يقدّم رؤى موثوقة مبنية على أحدث الإرشادات الطبية."
-    : "An intelligent clinical decision support assistant delivering reliable, evidence-based insights from trusted medical guidelines."}
+    ? "مساعد ذكي لدعم القرار الطبي، يقدّم إجابات موثوقة مستندة إلى إرشادات WHO 2021 و NICE NG238."
+    : "An intelligent clinical decision support assistant delivering reliable, evidence-based insights from WHO 2021 & NICE NG238 guidelines."}
 </p>
-
 
       {/* Badges */}
       <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2 pt-1">
-
         <Badge variant="medical" size="sm">
-          WHO 2021 (Pharmacology)
+          WHO 2021 (Hypertension)
         </Badge>
 
         <Badge variant="cardio" size="sm">
-          NICE NG238 (Lipids & Statins)
+          NICE NG238 (Lipids & CVD Risk)
         </Badge>
       </div>
 
@@ -66,7 +64,7 @@ export const WelcomeHero: React.FC<WelcomeHeroProps> = ({
 
           <span>
             {language === "ar"
-              ? "أسئلة سريرية شائعة للتجربة:"
+              ? "أسئلة مقترحة للتجربة:"
               : "Suggested Clinical Queries:"}
           </span>
         </span>

@@ -2,7 +2,7 @@ export type Role = "user" | "assistant" | "system";
 
 export interface MessageCitation {
   id: string;
-  source: string; // e.g. "NICE NG136", "WHO 2021", "NICE CG181"
+  source: string; // e.g. "WHO 2021", "NICE NG238"
   section: string; // e.g. "Section 1.1.1 - First-line drug classes"
   page?: string | number; // e.g. "p. 14"
   quote?: string;

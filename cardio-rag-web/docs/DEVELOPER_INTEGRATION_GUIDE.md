@@ -92,31 +92,12 @@
 
 ## 🚀 كيفية النشر على Vercel وضبط الـ Environment Variables
 
-### تشغيل محرك الاسترجاع المحلي
-
-شغّل واجهة FastAPI من مجلد `cardio-rag-backend`:
-
-```bash
-uvicorn src.api:app --reload --port 8000
-```
-
-ثم اضبط `RAG_BACKEND_URL=http://127.0.0.1:8000` في بيئة تشغيل الويب. واجهة Next.js تمرر طلبات `/api/retrieve` إلى مسار FastAPI `/retrieve`، بينما تبقى مفاتيح Groq على الخادم.
-
 1. ارفع المشروع إلى GitHub (باتباع الكوميتات النظيفة).
 2. ادخل إلى لوحة تحكم [Vercel](https://vercel.com) واضغط **Import Project**.
 3. في شاشة **Environment Variables** أضف المفاتيح التالية:
    - `GROQ_API_KEY`: مفتاح Groq الخاص بك (مثال: `gsk_...`).
    - `DEFAULT_GROQ_MODEL`: النموذج الافتراضي (افتراضياً: `openai/gpt-oss-120b`).
    - `DEFAULT_TRANSLATION_MODEL`: نموذج الترجمة (افتراضياً: `openai/gpt-oss-20b`).
-   - `RAG_BACKEND_URL`: عنوان خدمة FastAPI للاسترجاع (مثال محلي: `http://127.0.0.1:8000`).
-
-### نشر مجاني مقترح
-
-1. ارفع مجلد `cardio-rag-backend` إلى مستودع GitHub، ثم أنشئ خدمة **Render Web Service** باستخدام `render.yaml`.
-2. أضف متغيرات `SUPABASE_URL`, `SUPABASE_KEY`, `CLOUDFLARE_ACCOUNT_ID`, و`CLOUDFLARE_API_TOKEN` في Render.
-3. ارفع مجلد `cardio-rag-web` إلى Vercel كـ Next.js project.
-4. في Vercel أضف `RAG_BACKEND_URL` بقيمة رابط Render، مثل `https://cardio-rag-api.onrender.com`، بالإضافة إلى `GROQ_API_KEY`.
-5. بعد معرفة رابط Vercel، اضبط `FRONTEND_URL` في Render عليه. خدمة Render المجانية قد تدخل وضع السكون، لذلك قد يتأخر أول طلب بعد فترة من عدم الاستخدام.
    - `NEXT_PUBLIC_SUPABASE_URL`: (اختياري) رابط مشروع Supabase الخاص بك.
    - `NEXT_PUBLIC_SUPABASE_ANON_KEY`: (اختياري) المفتاح العام لـ Supabase.
 4. اضغط **Deploy** وسيعمل الموقع فوراً بكامل إمكانياته السريرية!

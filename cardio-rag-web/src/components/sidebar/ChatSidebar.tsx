@@ -161,7 +161,7 @@ export const ChatSidebar: React.FC<ChatSidebarProps> = ({
 
                 <span className="truncate">
                   {language === "ar"
-                    ? "بنك الأسئلة السريرية"
+                    ? "بنك الأسئلة الطبية"
                     : "Clinical Question Bank"}
                 </span>
 

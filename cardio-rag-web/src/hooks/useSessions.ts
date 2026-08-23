@@ -17,7 +17,7 @@ export function useSessions() {
     } else {
       const initialSession: ChatSession = {
         id: "session_" + Date.now(),
-        title: "محادثة سريرية جديدة",
+        title: "استفسار طبي جديد",
         createdAt: Date.now(),
         updatedAt: Date.now(),
         messages: [],
@@ -29,7 +29,7 @@ export function useSessions() {
     setMounted(true);
   }, []);
 
-  const createNewSession = useCallback((title: string = "محادثة سريرية جديدة") => {
+  const createNewSession = useCallback((title: string = "استفسار طبي جديد") => {
     const newSession: ChatSession = {
       id: "session_" + Date.now(),
       title,
@@ -56,7 +56,7 @@ export function useSessions() {
         } else if (filtered.length === 0) {
           const fresh: ChatSession = {
             id: "session_" + Date.now(),
-            title: "محادثة سريرية جديدة",
+            title: "استفسار طبي جديد",
             createdAt: Date.now(),
             updatedAt: Date.now(),
             messages: [],
@@ -82,7 +82,7 @@ export function useSessions() {
               s.title;
             return {
               ...s,
-              title: s.title === "محادثة سريرية جديدة" && firstUserMsg ? newTitle : s.title,
+              title: s.title === "استفسار طبي جديد" && firstUserMsg ? newTitle : s.title,
               messages,
               updatedAt: Date.now(),
             };
