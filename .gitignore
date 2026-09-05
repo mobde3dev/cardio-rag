@@ -1,4 +1,4 @@
-﻿# Local secrets
+# Local secrets
 **/.env
 **/.env.*
 !**/.env.example
@@ -23,3 +23,7 @@
 **/.git-backup/
 .DS_Store
 *.pem
+
+# AI agents and workflows
+.agents/
+**/.agents/
